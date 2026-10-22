@@ -5,7 +5,7 @@ export default function WaterReminder() {
     </View>;
 }
 const styles = StyleSheet.create({
-    screen: { flex: 1, padding: 24, justifyContent: 'center', backgroundColor: '#f8fafc' },
+    screen: { flex: 1, padding: 24, justifyContent: 'center', backgroundColor: "#2790fc" },
     body: { color: '#334155', fontSize: 16, marginTop: 18, lineHeight: 24 },
     link: { color: '#2563eb', fontWeight: '700', fontSize: 16, marginTop: 24 },
 });
