@@ -5,48 +5,52 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import HydrationEntryItem from "@/Features/WaterTracker/Presentation/components/HydrationEntryItem";
 import FlatList = Animated.FlatList;
 import {LinearGradient} from "expo-linear-gradient";
-import {useRef} from "react";
+import {AnimatedView} from "react-native-reanimated/src/component/View";
 
 
 export default function hydrationScreen() {
-    const {entries,goal,total, progress, addWater, removeWater,removeLastWater} = useHydration();
-    const listRef = useRef<FlatList>(null);
+    const {entries,cups,goal,total, progress, addWater, removeWater,removeLastWater} = useHydration();
 
-
-    return <SafeAreaView style={styles.screen}>
+    return <View style={styles.screen}>
+        <AnimatedView className={"absolute left-0 right-0 rounded-tl-3xl rounded-tr-3xl bottom-0 bg-blue-400"}
+                      style={{height: `${progress * 100}%`,transitionProperty: 'height',
+                          transitionDuration: 300,transitionTimingFunction: 'ease-in-out'}}/>
         <LinearGradient
             colors={['transparent', '#0f172a']}
             pointerEvents="none"
             style={styles.fade}
         />
-        <FlatList
-            contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: 'flex-end',
-            }}
-            ref={listRef}
-            onContentSizeChange={() => {
-                listRef.current?.scrollToEnd({ animated: false });
-            }}
-            data={entries} keyExtractor={(item) => item.id} renderItem={({item}) =>
-            <View style={{paddingBottom: 10}}>
-            <HydrationEntryItem
-                key={item.id} id={item.id} amount={item.amountMl} time={item.time}
-                removeWater={() => removeWater(item.id)} />
+        <SafeAreaView style={styles.content}>
+            <FlatList
+                data={entries} keyExtractor={(item) => item.id} renderItem={({item}) =>
+                <View style={{paddingBottom: 10}}>
+                    <HydrationEntryItem
+                        key={item.id} id={item.id} amount={item.amountMl} time={item.time}
+                        removeWater={() => removeWater(item.id)} />
+                </View>
+            }/>
+            <View style={styles.bottomPanel}>
+                <HydrationProgress cups={cups} entries={entries} removeLastWater={() => removeLastWater()} addWater={addWater} total={total} progress={progress} goal={goal} />
             </View>
-        }/>
-        <HydrationProgress entries={entries} removeLastWater={() => removeLastWater()} addWater={addWater} total={total} progress={progress} goal={goal} />
-    </SafeAreaView>;
+        </SafeAreaView>
+        </View>
 }
 const styles = StyleSheet.create({
-    screen: { flex: 1, padding: 16, justifyContent: 'flex-end', backgroundColor: "#144577" },
+    screen: { flex: 1, paddingHorizontal: 16, backgroundColor: "#144577" },
     body: { color: '#334155', fontSize: 16, marginTop: 18, lineHeight: 24 },
     link: { color: '#2563eb', fontWeight: '700', fontSize: 16, marginTop: 24 },
+    content: {
+        flex: 1,
+    },
     fade: {
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
         height: 120,
+    },
+    bottomPanel: {
+        paddingTop: 12,
+        paddingBottom: 12,
     },
 });

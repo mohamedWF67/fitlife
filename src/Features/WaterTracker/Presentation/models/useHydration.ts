@@ -15,6 +15,7 @@ export const useHydration = () => {
 
     const [entries, setEntries] = useState<HydrationEntry[]>(today?.entries ?? []);
     const goal = today?.goalMl ?? Hydration.goal;
+    const cups = entries.length;
 
     const total = useMemo(
         () => entries.reduce((sum, entry) => sum + entry.amountMl, 0),
@@ -24,7 +25,7 @@ export const useHydration = () => {
     const progress = Math.min(total / goal, 1);
 
     const addWater = (amountMl: number) => {
-        const time = new Date().getHours() + ":" + new Date().getMinutes();
+        const time = new Date().getHours().toString().padStart(2,'0') + ":" + new Date().getMinutes().toString().padStart(2,'0');
         console.log(Date.now() + " Adding " + amountMl);
         setEntries(prev => [...prev, {id: Date.now().toString(), time, amountMl}]);
     }
@@ -44,5 +45,5 @@ export const useHydration = () => {
         }
     }
 
-    return {allentries,entries,goal,total, progress, addWater, removeWater,removeLastWater};
+    return {allentries,cups,entries,goal,total, progress, addWater, removeWater,removeLastWater};
 }
