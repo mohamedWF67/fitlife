@@ -30,8 +30,9 @@ export default function hydrationScreen() {
             }}
             data={entries} keyExtractor={(item) => item.id} renderItem={({item}) =>
             <View style={{paddingBottom: 10}}>
-            <HydrationEntryItem key={item.id} id={item.id} amount={item.amountMl} time={item.time}
-                                removeWater={() => removeWater(item.id)} />
+            <HydrationEntryItem
+                key={item.id} id={item.id} amount={item.amountMl} time={item.time}
+                removeWater={() => removeWater(item.id)} />
             </View>
         }/>
         <HydrationProgress entries={entries} removeLastWater={() => removeLastWater()} addWater={addWater} total={total} progress={progress} goal={goal} />

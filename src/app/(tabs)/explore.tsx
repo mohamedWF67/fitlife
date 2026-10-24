@@ -2,6 +2,9 @@ import { StyleSheet, Text, View } from 'react-native';
 
 export default function ExploreScreen() {
   return <View style={styles.screen}>
+    <View className={"bg-gray-500 w-2/4 p-4 rounded-2xl flex flex-row items-center"}>
+      <Text className={"text-white font-bold"}>GO Explore</Text>
+    </View>
     <Text style={styles.heading}>Explore</Text>
     <Text style={styles.text}>Edit src/app/(tabs)/explore.tsx to build your next feature.</Text>
   </View>;
