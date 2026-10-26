@@ -1,9 +1,7 @@
 import {StyleSheet, Text, View} from "react-native";
 import {Host, Button, Picker, Row, Spacer} from '@expo/ui';
 import {useState} from "react";
-import { FadeIn,} from "react-native-reanimated";
-import {AnimatedText} from "react-native-reanimated/src/component/Text";
-import {AnimatedView} from "react-native-reanimated/src/component/View";
+import Animated, { FadeIn,} from "react-native-reanimated";
 
 type props = {total: number,cups: number, goal: number, progress: number, addWater: (amount: number) => void, removeLastWater: () => void, entries: any[]}
 const QuickAmounts = [100,200, 300, 400, 500, 600, 700, 800, 900, 1000];
@@ -12,24 +10,24 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
     const [quickAmount, setQuickAmount] = useState(200);
 
     return(
-        <AnimatedView entering={FadeIn.duration(200)} style={styles.card}>
+        <Animated.View entering={FadeIn.duration(200)} style={styles.card}>
             <View className={"flex-row justify-between"}>
                 <View>
-                    <AnimatedText
+                    <Animated.Text
                         key={total}
                         entering={FadeIn.duration(100)}
-                        style={styles.title}>{total}</AnimatedText>
-                    <AnimatedText
+                        style={styles.title}>{total}</Animated.Text>
+                    <Animated.Text
                         className="text-gray-500 text-left"
-                        entering={FadeIn.duration(100)}>{cups} Cups</AnimatedText>
+                        entering={FadeIn.duration(100)}>{cups} Cups</Animated.Text>
                 </View>
                 <View>
-                    <AnimatedText
+                    <Animated.Text
                         entering={FadeIn.duration(100)}
-                        style={styles.title}>{goal} ml</AnimatedText>
-                    <AnimatedText
+                        style={styles.title}>{goal} ml</Animated.Text>
+                    <Animated.Text
                         className="text-gray-500 text-right"
-                        entering={FadeIn.duration(100)}>{Math.max(goal - total,0)} ml left</AnimatedText>
+                        entering={FadeIn.duration(100)}>{Math.max(goal - total,0)} ml left</Animated.Text>
                 </View>
             </View>
             <Host matchContents={{ vertical: true}} style={{marginTop: 10,marginBottom: 10}}>
@@ -47,12 +45,12 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
             </Host>
             <Text className={"text-gray-500 mb-0.5"}>{Math.round(progress * 100)}% of daily goal</Text>
             <View style={{height: 10}}>
-                <AnimatedView className={"bg-gray-700 absolute"} style={{width: `100%`,transitionProperty: 'width',
+                <Animated.View className={"bg-gray-700 absolute"} style={{width: `100%`,transitionProperty: 'width',
                     transitionDuration: 300,height: '100%',borderRadius: 7}} />
-                <AnimatedView className={"bg-blue-400"} style={{width: `${progress * 100}%`,transitionProperty: 'width',
+                <Animated.View className={"bg-blue-400"} style={{width: `${progress * 100}%`,transitionProperty: 'width',
                     transitionDuration: 300,height: '100%',borderRadius: 7}} />
             </View>
-        </AnimatedView>
+        </Animated.View>
     )
 }
 

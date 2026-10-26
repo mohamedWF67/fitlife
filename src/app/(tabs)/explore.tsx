@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
-import {AnimatedView} from "react-native-reanimated/src/component/View";
+import Animated from "react-native-reanimated";
 
 export default function ExploreScreen() {
   return <View style={styles.screen}>
-    <AnimatedView className={"bg-gray-500 w-2/4 p-4 rounded-2xl flex flex-row items-center"}>
+    <Animated.View className={"bg-gray-500 w-2/4 p-4 rounded-2xl flex flex-row items-center"}>
       <Text className={"text-white font-bold"}>GO Explore</Text>
-    </AnimatedView>
+    </Animated.View>
     <Text style={styles.heading}>Explore</Text>
     <Text style={styles.text}>Edit src/app/(tabs)/explore.tsx to build your next feature.</Text>
   </View>;

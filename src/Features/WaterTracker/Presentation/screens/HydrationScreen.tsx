@@ -5,14 +5,14 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import HydrationEntryItem from "@/Features/WaterTracker/Presentation/components/HydrationEntryItem";
 import FlatList = Animated.FlatList;
 import {LinearGradient} from "expo-linear-gradient";
-import {AnimatedView} from "react-native-reanimated/src/component/View";
+import Reanimated from "react-native-reanimated";
 
 
-export default function hydrationScreen() {
+export default function HydrationScreen() {
     const {entries,cups,goal,total, progress, addWater, removeWater,removeLastWater} = useHydration();
 
     return <View style={styles.screen}>
-        <AnimatedView className={"absolute left-0 right-0 rounded-tl-3xl rounded-tr-3xl bottom-0 bg-blue-400"}
+        <Reanimated.View className={"absolute left-0 right-0 rounded-tl-3xl rounded-tr-3xl bottom-0 bg-blue-400"}
                       style={{height: `${progress * 100}%`,transitionProperty: 'height',
                           transitionDuration: 300,transitionTimingFunction: 'ease-in-out'}}/>
         <LinearGradient
