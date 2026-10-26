@@ -1,10 +1,10 @@
-import {Pressable, StyleSheet, Text, View} from "react-native";
+import { Pressable, StyleSheet, Text, View} from "react-native";
 import {Host, Button, Picker, Row, Spacer} from '@expo/ui';
 import {useState} from "react";
 import Animated, { FadeIn,} from "react-native-reanimated";
 import {TextInput} from "react-native"
 
-type props = {total: number,cups: number, goal: number, progress: number, addWater: (amount: number) => void, removeLastWater: () => void, entries: any[]}
+type props = {total: number,cups: number, goal: number, progress: number,resetHydration: () => void, addWater: (amount: number) => void, removeLastWater: () => void, entries: any[]}
 const QuickAmounts = [250,500,750];
 
 export default function HydrationProgress({total,cups, goal, progress, addWater,removeLastWater,entries}: props) {

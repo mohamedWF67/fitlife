@@ -46,5 +46,9 @@ export const useHydration = () => {
         }
     }
 
-    return {allentries,cups,entries,goal,total, progress, addWater, removeWater,removeLastWater};
+    const resetHydration = () => {
+        setEntries([]);
+        console.log(Date.now() + " Resetting hydration");
+    }
+    return {allentries,cups,entries,goal,total, progress, addWater, removeWater,removeLastWater, resetHydration};
 }

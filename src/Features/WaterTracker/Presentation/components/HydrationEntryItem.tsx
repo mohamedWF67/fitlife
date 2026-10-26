@@ -14,7 +14,7 @@ export default function HydrationEntryItem({amount, id, time,removeWater}: props
                 <Row alignment={"center"}>
                     <Column spacing={0} alignment="start">
                         <Text textStyle={{fontSize: 29,fontWeight: "800"}}>{amount.toString() + "ml"}</Text>
-                        <Text textStyle={{color: "#ff0000"}}>{hours12 + ":" + min + " " + ampm}</Text>
+                        <Text textStyle={{color: "#6b726b"}}>{hours12 + ":" + min + " " + ampm}</Text>
                     </Column>
                     <Spacer flexible/>
                     <Button variant="outlined" onPress={() => removeWater(id)} label={"Remove"}/>

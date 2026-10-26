@@ -9,7 +9,7 @@ import Reanimated from "react-native-reanimated";
 
 
 export default function HydrationScreen() {
-    const {entries,cups,goal,total, progress, addWater, removeWater,removeLastWater} = useHydration();
+    const {entries,cups,goal,total, progress, addWater, removeWater,removeLastWater, resetHydration} = useHydration();
 
     return <View style={styles.screen}>
         <Reanimated.View className={"absolute left-0 right-0 rounded-tl-3xl rounded-tr-3xl bottom-0 bg-blue-400"}
@@ -34,7 +34,7 @@ export default function HydrationScreen() {
                 </View>
             }/>
             <View style={styles.bottomPanel}>
-                <HydrationProgress cups={cups} entries={entries} removeLastWater={() => removeLastWater()} addWater={addWater} total={total} progress={progress} goal={goal} />
+                <HydrationProgress cups={cups} entries={entries} removeLastWater={() => removeLastWater()} addWater={addWater} resetHydration={() => resetHydration()} total={total} progress={progress} goal={goal} />
             </View>
 
         </KeyboardAvoidingView>
