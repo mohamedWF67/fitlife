@@ -1,14 +1,15 @@
 import {Pressable, StyleSheet, Text, View} from "react-native";
-import {Host, Button, Picker, Row, Spacer, TextInput, useNativeState} from '@expo/ui';
+import {Host, Button, Picker, Row, Spacer} from '@expo/ui';
 import {useState} from "react";
 import Animated, { FadeIn,} from "react-native-reanimated";
+import {TextInput} from "react-native"
 
 type props = {total: number,cups: number, goal: number, progress: number, addWater: (amount: number) => void, removeLastWater: () => void, entries: any[]}
 const QuickAmounts = [250,500,750];
 
 export default function HydrationProgress({total,cups, goal, progress, addWater,removeLastWater,entries}: props) {
     const [quickAmount, setQuickAmount] = useState<number | "Custom">(QuickAmounts[0]);
-    const customAmount = useNativeState("");
+    const [customAmount, setCustomAmount] = useState("");
     const isCustomAmount = quickAmount === "Custom";
 
     return(
@@ -47,25 +48,25 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                         <Picker.Item key={"Custom"} label={"Custom"} value={"Custom"} />
                     </Picker>
                     <Spacer flexible />
-                    <Button variant="outlined" onPress={() => {
+                    <Button variant="outlined" disabled={customAmount == "" && isCustomAmount} onPress={() => {
                     if (!isCustomAmount)addWater(quickAmount)
                         else
                     {
-                        addWater(Number(customAmount.value))
-                        customAmount.set("")
+                        addWater(Number(customAmount))
+                        setCustomAmount("")
                     }
                     }} label={"+"}/>
                 </Row>
             </Host>
             {isCustomAmount && (
-                <Host matchContents={{vertical: true}}>
                     <TextInput
+                        className={"w-full rounded-2xl border border-gray-500 p-2 mt-2 mb-2 text-white"}
                         autoFocus={true}
                         placeholder="Enter custom number"
-                        keyboardType="decimal-pad"
+                        keyboardType="numeric"
                         value={customAmount}
+                        onChangeText={setCustomAmount}
                     />
-                </Host>
             )}
             <Text className={"text-gray-500 mb-0.5"}>{Math.round(progress * 100)}% of daily goal</Text>
             <View style={{height: 10}}>
