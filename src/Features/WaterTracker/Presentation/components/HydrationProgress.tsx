@@ -12,7 +12,7 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
     const isCustomAmount = quickAmount === "Custom";
 
     return(
-        <Animated.View entering={FadeIn.duration(500)} style={styles.card}>
+        <Animated.View entering={FadeIn.duration(500)} className="flex p-5 gap-2 rounded-3xl bg-[#26263b]">
             <View className={"flex-row justify-between"}>
                 <View>
                     <Animated.Text

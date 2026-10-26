@@ -9,7 +9,7 @@ type props = {
 
 export default function NutritionCard({totals, goals, progress}:props) {
     return(
-        <View className={"flex p-5 gap-2 rounded-3xl bg-[#26263b]"}>
+        <View className={"flex p-5 mb-3 gap-2 rounded-3xl bg-[#26263b]"}>
             <AnimatedProgressBar
                 Label={"Proteins"}
                 value={progress.proteins}

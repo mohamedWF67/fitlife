@@ -9,7 +9,7 @@ import GlobalGradientBackground from "@/components/GlobalGradientBackground";
 export default function HydrationScreen() {
     const {entries,cups,goal,total, progress, addWater, removeWater,removeLastWater, resetHydration} = useHydration();
 
-    return <View style={styles.screen}>
+    return <View className="flex-1 pl-4 pr-4 bg-[#18152b]">
         <GlobalGradientBackground/>
         <Reanimated.View className={"absolute left-0 right-0 rounded-tl-3xl rounded-tr-3xl bottom-0 bg-blue-400"}
                          style={{height: `${progress * 100}%`,transitionProperty: 'height',
@@ -21,7 +21,7 @@ export default function HydrationScreen() {
             >
             <FlatList
                 data={entries} keyExtractor={(item) => item.id} renderItem={({item}) =>
-                <View style={{paddingBottom: 10}}>
+                <View className="mb-2">
                     <HydrationEntryItem
                         key={item.id} id={item.id} amount={item.amountMl} time={item.time}
                         removeWater={() => removeWater(item.id)} />
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     bottomPanel: {
-        paddingTop: 18,
+        paddingTop: 12,
         paddingBottom: 12,
     },
 });
