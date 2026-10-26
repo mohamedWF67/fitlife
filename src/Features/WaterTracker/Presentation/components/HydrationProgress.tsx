@@ -6,14 +6,13 @@ import {TextInput} from "react-native"
 
 type props = {total: number,cups: number, goal: number, progress: number,resetHydration: () => void, addWater: (amount: number) => void, removeLastWater: () => void, entries: any[]}
 const QuickAmounts = [250,500,750];
-
 export default function HydrationProgress({total,cups, goal, progress, addWater,removeLastWater,entries}: props) {
     const [quickAmount, setQuickAmount] = useState<number | "Custom">(QuickAmounts[0]);
     const [customAmount, setCustomAmount] = useState("");
     const isCustomAmount = quickAmount === "Custom";
 
     return(
-        <Animated.View entering={FadeIn.duration(200)} style={styles.card}>
+        <Animated.View entering={FadeIn.duration(500)} style={styles.card}>
             <View className={"flex-row justify-between"}>
                 <View>
                     <Animated.Text
@@ -68,19 +67,19 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                         onChangeText={setCustomAmount}
                     />
             )}
-            <Text className={"text-gray-500 mb-0.5"}>{Math.round(progress * 100)}% of daily goal</Text>
-            <View style={{height: 10}}>
-                <Animated.View className={"bg-gray-700 absolute"} style={{width: `100%`,transitionProperty: 'width',
-                    transitionDuration: 300,height: '100%',borderRadius: 7}} />
-                <Animated.View className={"bg-blue-400"} style={{width: `${progress * 100}%`,transitionProperty: 'width',
-                    transitionDuration: 300,height: '100%',borderRadius: 7}} />
+            <View className={"flex flex-row items-center h-7 rounded-2xl overflow-hidden"}>
+                <Animated.View className={"bg-[#303049] absolute w-full h-full rounded-2xl"} />
+                <Animated.View
+                    className={"bg-blue-400 h-full rounded-2xl absolute"}
+                    style={{width: `${progress * 100}%`,transitionProperty: 'width', transitionDuration: 400, transitionTimingFunction: 'ease-in-out'}} />
+                <Text className={"text-gray-200 font-semibold pl-2"}>{progress < 1 ? Math.round(progress * 100) + "% of daily goal" : "Daily goal reached"}</Text>
             </View>
         </Animated.View>
     )
 }
 
 const styles = StyleSheet.create({
-    card: { backgroundColor: '#151b2c', borderRadius: 22, padding: 28, overflow: 'hidden' },
+    card: { backgroundColor: '#26263b', borderRadius: 22, padding: 28, overflow: 'hidden' },
     emoji: { fontSize: 40 },
     title: { color: 'white', fontSize: 29, fontWeight: '800', marginTop: 0 },
     pickerContainer: { height: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' , justifyContent: 'space-between', margin: 10,backgroundColor: '#ff0000' },

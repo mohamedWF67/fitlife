@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="TailwindSettings">
+    <option name="lspConfiguration" value="{&#10;  &quot;classAttributes&quot;: [&#10;    &quot;class&quot;,&#10;    &quot;className&quot;&#10;  ],&#10;  &quot;includeLanguages&quot;: {&#10;    &quot;javascript&quot;: &quot;javascript&quot;,&#10;    &quot;typescript&quot;: &quot;typescript&quot;,&#10;    &quot;javascriptreact&quot;: &quot;javascript&quot;,&#10;    &quot;typescriptreact&quot;: &quot;typescript&quot;&#10;  }&#10;}" />
+    <option name="lspServerPackageName" value="C:\Users\mohamed waleed\AppData\Roaming\npm\node_modules\@tailwindcss\language-server" />
+  </component>
+</project>

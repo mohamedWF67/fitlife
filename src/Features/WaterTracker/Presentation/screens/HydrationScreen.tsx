@@ -4,22 +4,16 @@ import {useHydration} from "@/Features/WaterTracker/Presentation/models/useHydra
 import {SafeAreaView} from "react-native-safe-area-context";
 import HydrationEntryItem from "@/Features/WaterTracker/Presentation/components/HydrationEntryItem";
 import FlatList = Animated.FlatList;
-import {LinearGradient} from "expo-linear-gradient";
 import Reanimated from "react-native-reanimated";
-
-
+import GlobalGradientBackground from "@/components/GlobalGradientBackground";
 export default function HydrationScreen() {
     const {entries,cups,goal,total, progress, addWater, removeWater,removeLastWater, resetHydration} = useHydration();
 
     return <View style={styles.screen}>
+        <GlobalGradientBackground/>
         <Reanimated.View className={"absolute left-0 right-0 rounded-tl-3xl rounded-tr-3xl bottom-0 bg-blue-400"}
-                      style={{height: `${progress * 100}%`,transitionProperty: 'height',
-                          transitionDuration: 300,transitionTimingFunction: 'ease-in-out'}}/>
-        <LinearGradient
-            colors={['transparent', '#0f172a']}
-            pointerEvents="none"
-            style={styles.fade}
-        />
+                         style={{height: `${progress * 100}%`,transitionProperty: 'height',
+                             transitionDuration: 300,transitionTimingFunction: 'ease-in-out'}}/>
         <SafeAreaView style={styles.content}>
             <KeyboardAvoidingView
                 style={{ flex: 1 }}
@@ -42,21 +36,14 @@ export default function HydrationScreen() {
         </View>
 }
 const styles = StyleSheet.create({
-    screen: { flex: 1, paddingHorizontal: 16, backgroundColor: "#144577" },
+    screen: { flex: 1, paddingHorizontal: 16, backgroundColor: "#18152b" },
     body: { color: '#334155', fontSize: 16, marginTop: 18, lineHeight: 24 },
     link: { color: '#2563eb', fontWeight: '700', fontSize: 16, marginTop: 24 },
     content: {
         flex: 1,
     },
-    fade: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 120,
-    },
     bottomPanel: {
-        paddingTop: 12,
+        paddingTop: 18,
         paddingBottom: 12,
     },
 });

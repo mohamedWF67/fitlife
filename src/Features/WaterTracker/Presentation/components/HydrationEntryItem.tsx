@@ -25,7 +25,7 @@ export default function HydrationEntryItem({amount, id, time,removeWater}: props
 }
 
 const styles = StyleSheet.create({
-    card: { backgroundColor: '#151b2c', borderRadius: 22, padding: 16, flexDirection: 'column' },
+    card: { backgroundColor: '#26263b', borderRadius: 22, padding: 16, flexDirection: 'column' },
     emoji: { fontSize: 40 },
     title: { color: 'white', fontSize: 29, fontWeight: '800', marginTop: 0 },
     pickerContainer: { height: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' , justifyContent: 'space-between', margin: 10,backgroundColor: '#ff0000' },
