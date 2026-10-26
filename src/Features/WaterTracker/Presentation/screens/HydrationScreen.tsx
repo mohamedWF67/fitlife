@@ -1,4 +1,4 @@
-import {Animated, StyleSheet, View} from 'react-native';
+import {Animated, KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
 import HydrationProgress from "@/Features/WaterTracker/Presentation/components/HydrationProgress";
 import {useHydration} from "@/Features/WaterTracker/Presentation/models/useHydration";
 import {SafeAreaView} from "react-native-safe-area-context";
@@ -21,6 +21,10 @@ export default function HydrationScreen() {
             style={styles.fade}
         />
         <SafeAreaView style={styles.content}>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
             <FlatList
                 data={entries} keyExtractor={(item) => item.id} renderItem={({item}) =>
                 <View style={{paddingBottom: 10}}>
@@ -32,6 +36,8 @@ export default function HydrationScreen() {
             <View style={styles.bottomPanel}>
                 <HydrationProgress cups={cups} entries={entries} removeLastWater={() => removeLastWater()} addWater={addWater} total={total} progress={progress} goal={goal} />
             </View>
+
+        </KeyboardAvoidingView>
         </SafeAreaView>
         </View>
 }

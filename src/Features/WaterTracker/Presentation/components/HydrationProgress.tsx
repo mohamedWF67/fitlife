@@ -1,13 +1,15 @@
-import {StyleSheet, Text, View} from "react-native";
-import {Host, Button, Picker, Row, Spacer} from '@expo/ui';
+import {Pressable, StyleSheet, Text, View} from "react-native";
+import {Host, Button, Picker, Row, Spacer, TextInput, useNativeState} from '@expo/ui';
 import {useState} from "react";
 import Animated, { FadeIn,} from "react-native-reanimated";
 
 type props = {total: number,cups: number, goal: number, progress: number, addWater: (amount: number) => void, removeLastWater: () => void, entries: any[]}
-const QuickAmounts = [100,200, 300, 400, 500, 600, 700, 800, 900, 1000];
+const QuickAmounts = [250,500,750];
 
 export default function HydrationProgress({total,cups, goal, progress, addWater,removeLastWater,entries}: props) {
-    const [quickAmount, setQuickAmount] = useState(200);
+    const [quickAmount, setQuickAmount] = useState<number | "Custom">(QuickAmounts[0]);
+    const customAmount = useNativeState("");
+    const isCustomAmount = quickAmount === "Custom";
 
     return(
         <Animated.View entering={FadeIn.duration(200)} style={styles.card}>
@@ -17,14 +19,18 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                         key={total}
                         entering={FadeIn.duration(100)}
                         style={styles.title}>{total}</Animated.Text>
+                    <Pressable onLongPress={() => console.log("Long press")}>
                     <Animated.Text
                         className="text-gray-500 text-left"
                         entering={FadeIn.duration(100)}>{cups} Cups</Animated.Text>
-                </View>
+                    </Pressable>
+                    </View>
                 <View>
-                    <Animated.Text
-                        entering={FadeIn.duration(100)}
-                        style={styles.title}>{goal} ml</Animated.Text>
+                    <Pressable onLongPress={() => console.log("Long press")}>
+                        <Animated.Text
+                            entering={FadeIn.duration(100)}
+                            style={styles.title}>{goal} ml</Animated.Text>
+                    </Pressable>
                     <Animated.Text
                         className="text-gray-500 text-right"
                         entering={FadeIn.duration(100)}>{Math.max(goal - total,0)} ml left</Animated.Text>
@@ -38,11 +44,29 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                         {QuickAmounts.map(f => (
                             <Picker.Item key={f} label={f.toString()} value={f} />
                         ))}
+                        <Picker.Item key={"Custom"} label={"Custom"} value={"Custom"} />
                     </Picker>
                     <Spacer flexible />
-                    <Button variant="outlined" onPress={() => addWater(quickAmount)} label={"+"}/>
+                    <Button variant="outlined" onPress={() => {
+                    if (!isCustomAmount)addWater(quickAmount)
+                        else
+                    {
+                        addWater(Number(customAmount.value))
+                        customAmount.set("")
+                    }
+                    }} label={"+"}/>
                 </Row>
             </Host>
+            {isCustomAmount && (
+                <Host matchContents={{vertical: true}}>
+                    <TextInput
+                        autoFocus={true}
+                        placeholder="Enter custom number"
+                        keyboardType="decimal-pad"
+                        value={customAmount}
+                    />
+                </Host>
+            )}
             <Text className={"text-gray-500 mb-0.5"}>{Math.round(progress * 100)}% of daily goal</Text>
             <View style={{height: 10}}>
                 <Animated.View className={"bg-gray-700 absolute"} style={{width: `100%`,transitionProperty: 'width',
