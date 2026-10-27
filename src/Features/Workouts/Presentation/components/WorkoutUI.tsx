@@ -33,7 +33,6 @@ export function WorkoutScreen({ title, subtitle, back = false, children }: {
               <Text style={ui.subtitle}>{subtitle}</Text>
             </View>
             {children}
-            <Text style={ui.footnote}>UI preview · Changes stay in this app session.</Text>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -138,7 +137,6 @@ export const ui = StyleSheet.create({
   input: { backgroundColor: colors.inset, borderWidth: 1, borderColor: colors.border, borderRadius: 12, minHeight: 50, paddingHorizontal: 14, paddingVertical: 12, color: colors.text, fontSize: 16 },
   message: { color: colors.success, fontSize: 14, lineHeight: 21 },
   error: { color: colors.danger },
-  footnote: { color: colors.muted, fontSize: 12, textAlign: 'center', lineHeight: 20 },
   link: { color: colors.accent, fontSize: 16, fontWeight: '700' },
   back: { minHeight: 44, justifyContent: 'center', alignSelf: 'flex-start' },
   badge: { color: colors.accent, fontSize: 12, fontWeight: '800', letterSpacing: 0.5 },

@@ -35,7 +35,7 @@ export default function WorkoutScheduleScreen() {
     if (type === 'Workout' && !plans.some(plan => plan.id === planId)) { setError('Select a workout plan first.'); return; }
     if (type === 'Workout' && !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) { setError('Enter a time in 24-hour HH:MM format, e.g. 18:00.'); return; }
     saveScheduledDay({ date, type, ...(type === 'Workout' ? { planId, time } : {}) });
-    setError(''); setMessage(`${type} saved for ${parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} in this session.`);
+    setError(''); setMessage(`${type} saved for ${parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}.`);
   };
 
   return (
@@ -67,18 +67,12 @@ export default function WorkoutScheduleScreen() {
       </Card>
 
       <Card>
-        <Text style={ui.badge}>GOOGLE CALENDAR</Text>
-        <Text style={ui.heading}>Not connected yet</Text>
-        <Text style={ui.subtitle}>Calendar sync and workout notifications will be connected in a later phase. Your schedule above is a local UI preview.</Text>
-      </Card>
-
-      <Card>
         <Text style={ui.heading}>Your schedule</Text>
         {schedule.length === 0 && <Text style={ui.caption}>Your week is a blank canvas. Add a workout or a rest day above.</Text>}
         {schedule.map(day => <View key={day.id} style={ui.inset}>
           <Text style={ui.badge}>{day.type.toUpperCase()} · {day.date}</Text>
           <Text style={ui.label}>{day.type === 'Rest day' ? 'Rest & recover' : plans.find(plan => plan.id === day.planId)?.name ?? 'Workout'}</Text>
-          <Text style={ui.caption}>{day.time ? `${day.time} · ` : ''}Saved in this app session</Text>
+          {!!day.time && <Text style={ui.caption}>{day.time}</Text>}
           <View style={ui.wrap}>
             <Chip label="Edit day" selected={false} onPress={() => chooseDate(day.date)} />
             <Chip label="Remove day" selected={false} onPress={() => { removeScheduledDay(day.id); setMessage('Day removed from your schedule.'); setError(''); }} />
