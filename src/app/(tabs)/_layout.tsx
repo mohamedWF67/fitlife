@@ -16,6 +16,10 @@ export default function TabLayout() {
         <Icon sf={icon2} />
         <Label>Nutrition</Label>
       </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="workouts">
+            <Icon sf="dumbbell.fill" />
+            <Label>Workouts</Label>
+        </NativeTabs.Trigger>
       <NativeTabs.Trigger name="waterReminder">
         <Icon sf={icon} />
         <Label>Water</Label>
