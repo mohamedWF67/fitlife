@@ -28,6 +28,9 @@ export default function CalorieCircle({totals, goals, progress}:props) {
         strokeDashoffset: circumference * (1 - animatedProgress.get()),
     }));
 
+    const isGoalReached = totals.calories >= goals.calories;
+    const remainingCalories = Math.max(goals.calories - totals.calories,0).toString().padStart(4,'0');
+
     return(
         <View className={"flex-1 p-5 gap-2 rounded-3xl bg-[#26263b]"}>
             <Text className={"text-white text-4xl font-bold text-center"}>Calories</Text>
@@ -61,11 +64,19 @@ export default function CalorieCircle({totals, goals, progress}:props) {
                             </Svg>
                         </View>
                     )}
-                    <Text className={"text-white text-4xl font-bold text-center"}>
-                        {Math.max(goals.calories - totals.calories,0).toString().padStart(4,'0')} Kcal
-                    </Text>
-                    <Text className={"text-white text-3xl font-bold text-center"}>Remaining</Text>
-                    <Text className={"text-gray-300 text-2xl font-bold text-center"}>{totals.calories} / {goals.calories}</Text>
+                    {!isGoalReached ?
+                        <>
+                            <Text className={"text-white text-6xl font-bold text-center"} style={{marginBottom: -10}}>
+                                {Math.max(goals.calories - totals.calories,0)}
+                                <Text className={"text-gray-300 text-xs font-bold text-center pl-1"}>left</Text>
+                            </Text>
+                        </>
+                        :
+                        <Text className={"text-white text-3xl font-bold text-center"}>
+                            Goal Reached
+                        </Text>
+                    }
+                    <Text className={"text-gray-500 text-2xl font-bold text-center"}>{totals.calories} / {goals.calories}</Text>
                 </View>
                 <View className={"flex-row flex items-center justify-around"}>
                     <Pressable

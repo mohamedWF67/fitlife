@@ -60,6 +60,7 @@ export default function DashboardScreen() {
                     <View className="h-32 flex-row">
                         {sleep.bars.map(bar => (
                             <View key={bar.id} className="flex-1">
+                                <View/>
                                 <View className="absolute left-2 right-2 rounded-3xl bg-[#5438be]"
                                       style={{top: `${bar.top}%`, height: `${bar.height}%`}}/>
                             </View>
