@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 import { useWorkouts } from '../models/WorkoutProvider';
 import { ActionButton, Card, Chip, DumbbellMark, WorkoutScreen, ui } from '../components/WorkoutUI';
+import ProgressPhotoCarousel from '../components/ProgressPhotoCarousel';
 import { dateKey, sessionStats, weekDates } from '../../domain/workoutUtils';
 import { exerciseById } from '../../data/mock/Workouts';
 import type { WorkoutSession } from '../../domain/entities/Workout';
@@ -74,6 +75,8 @@ export default function WorkoutsScreen() {
         </View>
         <Text className={ui.caption}>Blue: workout · Green: rest · Tap a day to plan</Text>
       </Card>
+
+      <ProgressPhotoCarousel />
 
       <View className={ui.section}>
         <Text accessibilityRole="header" className={ui.heading}>Your workout plans</Text>

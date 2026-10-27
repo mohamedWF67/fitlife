@@ -35,6 +35,12 @@
       ],
       "expo-font",
       "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Allow FitLife to use your camera to take progress photos."
+        }
+      ],
       "expo-status-bar",
       "expo-web-browser"
     ],
