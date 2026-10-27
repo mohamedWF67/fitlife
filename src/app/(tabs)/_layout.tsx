@@ -6,7 +6,16 @@ const icon2: SFSymbol = "drop.fill";
 
 export default function TabLayout() {
   return (
-    <NativeTabs>
+    <NativeTabs
+        tintColor="#5864f5"
+        iconColor={{
+            default: "#808080",
+            selected: "#382461",
+        }}
+        labelStyle={{
+            default: { color: "#808080" },
+            selected: { color: "#382461" },
+        }}>
         <NativeTabs.Trigger name="index">
             <Icon sf={"house.fill"} />
             <Label>Home</Label>
