@@ -44,12 +44,12 @@ export const useNutritionState = () => {
         fats: Math.min(totals.fats / goals.fats, 1),
     };
 
-    const entakeProgress: Macros = {
-        calories: Math.min(totals.calories / (goals.calories / 3), 1),
-        proteins: Math.min(totals.proteins / (goals.proteins / 3), 1),
-        carbs: Math.min(totals.carbs / (goals.carbs / 3), 1),
-        fats: Math.min(totals.fats / (goals.carbs / 3), 1),
-    };
+    const getEntryProgress = (entry: NutritionEntry): Macros => ({
+        calories: Math.min(entry.calories / (goals.calories / 3), 1),
+        proteins: Math.min(entry.proteins / (goals.proteins / 3), 1),
+        carbs: Math.min(entry.carbs / (goals.carbs / 3), 1),
+        fats: Math.min(entry.fats / (goals.fats / 3), 1),
+    });
 
     const addMeal = (meal: Macros) => {
         if (meal.calories <= 0) return;
@@ -78,7 +78,7 @@ export const useNutritionState = () => {
         setEntries([]);
         console.log(Date.now() + " Resetting nutrition");
     }
-    return {allEntries,meals,entries,goals,totals, progress,entakeProgress, addMeal, removeMeal,removeLastMeal, resetNutrition};
+    return {allEntries,meals,entries,goals,totals, progress,getEntryProgress, addMeal, removeMeal,removeLastMeal, resetNutrition};
 }
 
 export const NutritionContext = createContext<ReturnType<typeof useNutritionState> | null>(null);
