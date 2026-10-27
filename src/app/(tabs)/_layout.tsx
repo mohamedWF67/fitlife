@@ -23,6 +23,10 @@ export default function TabLayout() {
         <Icon sf="waterbottle" />
         <Label>Water</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="sleep">
+        <Icon sf="bed.double.fill" />
+        <Label>Sleep</Label>
+      </NativeTabs.Trigger>
     </NativeTabs>
   );
 }
