@@ -1,30 +1,36 @@
-import {StyleSheet, Text, View} from "react-native";
+import { Pressable, Text, View} from "react-native";
 import {Host, Button, Picker, Row, Spacer} from '@expo/ui';
 import {useState} from "react";
 import Animated, { FadeIn,} from "react-native-reanimated";
+import {TextInput} from "react-native"
 
-type props = {total: number,cups: number, goal: number, progress: number, addWater: (amount: number) => void, removeLastWater: () => void, entries: any[]}
-const QuickAmounts = [100,200, 300, 400, 500, 600, 700, 800, 900, 1000];
-
+type props = {total: number,cups: number, goal: number, progress: number,resetHydration: () => void, addWater: (amount: number) => void, removeLastWater: () => void, entries: any[]}
+const QuickAmounts = [250,500,750];
 export default function HydrationProgress({total,cups, goal, progress, addWater,removeLastWater,entries}: props) {
-    const [quickAmount, setQuickAmount] = useState(200);
+    const [quickAmount, setQuickAmount] = useState<number | "Custom">(QuickAmounts[0]);
+    const [customAmount, setCustomAmount] = useState("");
+    const isCustomAmount = quickAmount === "Custom";
 
     return(
-        <Animated.View entering={FadeIn.duration(200)} style={styles.card}>
+        <Animated.View entering={FadeIn.duration(500)} className="flex p-5 gap-2 rounded-3xl bg-[#26263b]">
             <View className={"flex-row justify-between"}>
                 <View>
                     <Animated.Text
                         key={total}
                         entering={FadeIn.duration(100)}
-                        style={styles.title}>{total}</Animated.Text>
+                        className="text-white text-4xl font-extrabold">{total}</Animated.Text>
+                    <Pressable onLongPress={() => console.log("Long press")}>
                     <Animated.Text
                         className="text-gray-500 text-left"
                         entering={FadeIn.duration(100)}>{cups} Cups</Animated.Text>
-                </View>
+                    </Pressable>
+                    </View>
                 <View>
-                    <Animated.Text
-                        entering={FadeIn.duration(100)}
-                        style={styles.title}>{goal} ml</Animated.Text>
+                    <Pressable onLongPress={() => console.log("Long press")}>
+                        <Animated.Text
+                            entering={FadeIn.duration(100)}
+                            className="text-white text-4xl font-extrabold">{goal} ml</Animated.Text>
+                    </Pressable>
                     <Animated.Text
                         className="text-gray-500 text-right"
                         entering={FadeIn.duration(100)}>{Math.max(goal - total,0)} ml left</Animated.Text>
@@ -38,25 +44,36 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                         {QuickAmounts.map(f => (
                             <Picker.Item key={f} label={f.toString()} value={f} />
                         ))}
+                        <Picker.Item key={"Custom"} label={"Custom"} value={"Custom"} />
                     </Picker>
                     <Spacer flexible />
-                    <Button variant="outlined" onPress={() => addWater(quickAmount)} label={"+"}/>
+                    <Button variant="outlined" disabled={customAmount == "" && isCustomAmount} onPress={() => {
+                    if (!isCustomAmount)addWater(quickAmount)
+                        else
+                    {
+                        addWater(Number(customAmount))
+                        setCustomAmount("")
+                    }
+                    }} label={"+"}/>
                 </Row>
             </Host>
-            <Text className={"text-gray-500 mb-0.5"}>{Math.round(progress * 100)}% of daily goal</Text>
-            <View style={{height: 10}}>
-                <Animated.View className={"bg-gray-700 absolute"} style={{width: `100%`,transitionProperty: 'width',
-                    transitionDuration: 300,height: '100%',borderRadius: 7}} />
-                <Animated.View className={"bg-blue-400"} style={{width: `${progress * 100}%`,transitionProperty: 'width',
-                    transitionDuration: 300,height: '100%',borderRadius: 7}} />
+            {isCustomAmount && (
+                    <TextInput
+                        className={"w-full rounded-2xl border border-gray-500 p-2 mt-2 mb-2 text-white"}
+                        autoFocus={true}
+                        placeholder="Enter custom number"
+                        keyboardType="numeric"
+                        value={customAmount}
+                        onChangeText={setCustomAmount}
+                    />
+            )}
+            <View className={"flex flex-row items-center h-7 rounded-2xl overflow-hidden"}>
+                <Animated.View className={"bg-[#303049] absolute w-full h-full rounded-2xl"} />
+                <Animated.View
+                    className={"bg-blue-400 h-full rounded-2xl absolute"}
+                    style={{width: `${progress * 100}%`,transitionProperty: 'width', transitionDuration: 400, transitionTimingFunction: 'ease-in-out'}} />
+                <Text className={"text-gray-200 font-semibold pl-2"}>{progress < 1 ? Math.round(progress * 100) + "% of daily goal" : "Daily goal reached"}</Text>
             </View>
         </Animated.View>
     )
 }
-
-const styles = StyleSheet.create({
-    card: { backgroundColor: '#151b2c', borderRadius: 22, padding: 28, overflow: 'hidden' },
-    emoji: { fontSize: 40 },
-    title: { color: 'white', fontSize: 29, fontWeight: '800', marginTop: 0 },
-    pickerContainer: { height: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' , justifyContent: 'space-between', margin: 10,backgroundColor: '#ff0000' },
-    subtitle: { color: '#cbd5e1', fontSize: 16, marginTop: 8 } });

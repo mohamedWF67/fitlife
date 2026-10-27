@@ -1,0 +1,90 @@
+import {createContext, useContext, useMemo, useState} from "react";
+import {NutritionEntry} from "@/Features/Nutration/domain/entities/NutritionLog";
+import {Nutrition} from "@/Features/Nutration/data/mock/Nutrition";
+
+export type Macros = {calories: number, proteins: number, carbs: number, fats: number};
+
+const defaultGoals: Macros = {calories: 2000, proteins: 120, carbs: 250, fats: 70};
+
+const getTodayKey = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
+// Owns the nutrition state. Only NutritionProvider calls this; screens use useNutrition() to share one copy.
+export const useNutritionState = () => {
+
+    const allEntries = Nutrition;
+
+    const today = Nutrition.days.find(d => d.date === getTodayKey());
+
+    const [entries, setEntries] = useState<NutritionEntry[]>(today?.entries ?? []);
+    const goals: Macros = today
+        ? {calories: today.goalCalories, proteins: today.goalProteins, carbs: today.goalCarbs, fats: today.goalFats}
+        : defaultGoals;
+    const meals = entries.length;
+
+    const totals = useMemo(
+        () => entries.reduce(
+            (sum, entry) => ({
+                calories: sum.calories + entry.calories,
+                proteins: sum.proteins + entry.proteins,
+                carbs: sum.carbs + entry.carbs,
+                fats: sum.fats + entry.fats,
+            }),
+            {calories: 0, proteins: 0, carbs: 0, fats: 0}
+        ),
+        [entries]
+    )
+
+    const progress: Macros = {
+        calories: Math.min(totals.calories / goals.calories, 1),
+        proteins: Math.min(totals.proteins / goals.proteins, 1),
+        carbs: Math.min(totals.carbs / goals.carbs, 1),
+        fats: Math.min(totals.fats / goals.fats, 1),
+    };
+
+    const getEntryProgress = (entry: NutritionEntry): Macros => ({
+        calories: Math.min(entry.calories / (goals.calories / 3), 1),
+        proteins: Math.min(entry.proteins / (goals.proteins / 3), 1),
+        carbs: Math.min(entry.carbs / (goals.carbs / 3), 1),
+        fats: Math.min(entry.fats / (goals.fats / 3), 1),
+    });
+
+    const addMeal = (meal: Macros) => {
+        if (meal.calories <= 0) return;
+        const now = new Date();
+        const time = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+        console.log(Date.now() + " Adding " + meal.calories + " kcal");
+        setEntries(prev => [...prev, {id: Date.now().toString(), time, ...meal}]);
+    }
+
+    const removeMeal = (id: string) => {
+        console.log(Date.now() + " Removing " + id);
+        setEntries(prev => prev.filter(entry => entry.id !== id));
+    }
+
+    const removeLastMeal = () => {
+        console.log(Date.now() + " Removing ");
+
+        if (entries.length >= 1)
+            removeMeal(entries[entries.length - 1].id);
+        else{
+            alert("No meal to remove");
+        }
+    }
+
+    const resetNutrition = () => {
+        setEntries([]);
+        console.log(Date.now() + " Resetting nutrition");
+    }
+    return {allEntries,meals,entries,goals,totals, progress,getEntryProgress, addMeal, removeMeal,removeLastMeal, resetNutrition};
+}
+
+export const NutritionContext = createContext<ReturnType<typeof useNutritionState> | null>(null);
+
+export const useNutrition = () => {
+    const nutrition = useContext(NutritionContext);
+    if (!nutrition) throw new Error("useNutrition must be used inside NutritionProvider");
+    return nutrition;
+}
