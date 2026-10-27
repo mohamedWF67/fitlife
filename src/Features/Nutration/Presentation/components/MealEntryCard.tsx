@@ -27,7 +27,7 @@ export default function MealEntryCard({addMeal}:props){
             <MealEntryItem Title={"Proteins"} value={proteins} onChangeText={setProteins}/>
             <MealEntryItem Title={"Carbs"} value={carbs} onChangeText={setCarbs}/>
             <MealEntryItem Title={"Fats"} value={fats} onChangeText={setFats}/>
-            <Pressable onPress={saveMeal} disabled={calories === ""} className="bg-gray-700 rounded-2xl p-4">
+            <Pressable onPress={saveMeal} disabled={calories === "" || proteins === "" || carbs === "" || fats === ""} className="bg-gray-700 rounded-2xl p-4">
                 <Text className={"text-white font-bold"}>Add Meal</Text>
             </Pressable>
         </View>

@@ -12,7 +12,7 @@ export default function MealEntryItem({Title, value, onChangeText}:props){
     const placeholder = `Enter ${Title} Intake `;
     return(
         <View>
-            <Text className={"text-white pl-2 font-bold"}>{Title}</Text>
+            <Text className={"text-white pl-2 text-lg font-bold"}>{Title}</Text>
                 <TextInput
                     className={"w-full rounded-2xl border border-gray-500 p-2 text-gray-200 font-semibold"}
                     placeholder={placeholder}
