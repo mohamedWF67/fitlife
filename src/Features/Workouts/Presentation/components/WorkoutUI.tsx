@@ -2,10 +2,13 @@ import type { ReactNode } from 'react';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
-  KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
+  KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View,
   type TextInputProps,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { styled } from 'nativewind';
+import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context';
+
+const SafeAreaView = styled(RNSafeAreaView);
 
 // Match the existing hydration feature without changing the app's global theme.
 export const colors = {
@@ -18,19 +21,21 @@ export function WorkoutScreen({ title, subtitle, back = false, children }: {
   title: string; subtitle: string; back?: boolean; children: ReactNode;
 }) {
   return (
-    <View style={ui.screen}>
-      <LinearGradient colors={[colors.background, colors.inset]} style={StyleSheet.absoluteFill} />
-      <SafeAreaView edges={['top', 'left', 'right']} style={ui.flex}>
-        <KeyboardAvoidingView style={ui.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={ui.content}>
+    <View className="flex-1 bg-[#144577]">
+      <LinearGradient colors={[colors.background, colors.inset]} className="absolute top-0 right-0 bottom-0 left-0" />
+      <SafeAreaView edges={['top', 'left', 'right']} className="flex-1">
+        <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <ScrollView keyboardShouldPersistTaps="handled"
+            contentContainerClassName="w-full max-w-2xl self-center gap-4 px-4 pt-3 pb-10 web:pt-20">
             {back ? (
-              <Pressable accessibilityRole="button" onPress={() => router.canGoBack() ? router.back() : router.replace('/workouts')} style={ui.back}>
-                <Text style={ui.link}>‹  Workouts</Text>
+              <Pressable accessibilityRole="button" onPress={() => router.canGoBack() ? router.back() : router.replace('/workouts')}
+                className="min-h-11 justify-center self-start">
+                <Text className={ui.link}>‹  Workouts</Text>
               </Pressable>
-            ) : <Text style={ui.eyebrow}>FITLIFE / TRAINING</Text>}
-            <View style={ui.header}>
-              <Text accessibilityRole="header" style={ui.title}>{title}</Text>
-              <Text style={ui.subtitle}>{subtitle}</Text>
+            ) : <Text className="mt-3 text-xs font-extrabold tracking-widest text-blue-200">FITLIFE / TRAINING</Text>}
+            <View className="mb-1 gap-2">
+              <Text accessibilityRole="header" className="text-3xl font-extrabold tracking-tight text-white">{title}</Text>
+              <Text className={ui.subtitle}>{subtitle}</Text>
             </View>
             {children}
           </ScrollView>
@@ -41,7 +46,7 @@ export function WorkoutScreen({ title, subtitle, back = false, children }: {
 }
 
 export function Card({ children }: { children: ReactNode }) {
-  return <View style={ui.card}>{children}</View>;
+  return <View className="gap-3.5 rounded-3xl bg-[#151b2c] p-5">{children}</View>;
 }
 
 export function ActionButton({ label, onPress, secondary = false, disabled = false }: {
@@ -49,8 +54,8 @@ export function ActionButton({ label, onPress, secondary = false, disabled = fal
 }) {
   return (
     <Pressable accessibilityRole="button" aria-disabled={disabled} disabled={disabled} onPress={onPress}
-      style={({ pressed }) => [ui.button, secondary && ui.secondaryButton, (pressed || disabled) && ui.dimmed]}>
-      <Text style={[ui.buttonText, secondary && ui.secondaryButtonText]}>{label}</Text>
+      className={`min-h-12 items-center justify-center rounded-xl px-4 py-3.5 active:opacity-45 ${secondary ? 'border border-slate-700 bg-slate-900' : 'bg-blue-400'} ${disabled ? 'opacity-45' : ''}`}>
+      <Text className={`text-center text-base font-extrabold ${secondary ? 'text-blue-400' : 'text-slate-900'}`}>{label}</Text>
     </Pressable>
   );
 }
@@ -58,42 +63,44 @@ export function ActionButton({ label, onPress, secondary = false, disabled = fal
 export function Chip({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) {
   return (
     <Pressable accessibilityRole="button" aria-selected={selected} onPress={onPress}
-      style={({ pressed }) => [ui.chip, selected && ui.selectedChip, pressed && ui.dimmed]}>
-      <Text style={[ui.chipText, selected && ui.selectedChipText]}>{label}</Text>
+      className={`min-h-11 justify-center rounded-xl border px-3 py-2.5 active:opacity-45 ${selected ? 'border-blue-400 bg-blue-400' : 'border-slate-700 bg-slate-900'}`}>
+      <Text className={`text-sm font-bold ${selected ? 'text-slate-900' : 'text-slate-300'}`}>{label}</Text>
     </Pressable>
   );
 }
 
 export function Field({ label, ...props }: TextInputProps & { label: string }) {
   return (
-    <View style={ui.field}>
-      <Text style={ui.label}>{label}</Text>
+    <View className="gap-2">
+      <Text className={ui.label}>{label}</Text>
       <TextInput accessibilityLabel={label} placeholderTextColor="#94a3b8" selectionColor={colors.accent}
-        {...props} style={[ui.input, props.style]} />
+        {...props} className="min-h-12 rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-3 text-base text-white" />
     </View>
   );
 }
 
 export function Message({ children, error = false }: { children: ReactNode; error?: boolean }) {
   return <Text accessibilityRole={error ? 'alert' : undefined} accessibilityLiveRegion="polite"
-    style={[ui.message, error && ui.error]}>{children}</Text>;
+    className={`text-sm ${error ? 'text-rose-300' : 'text-green-300'}`}>{children}</Text>;
 }
 
 export function Stepper({ label, exerciseName, value, min, max, onChange }: {
   label: string; exerciseName: string; value: number; min: number; max: number; onChange: (value: number) => void;
 }) {
   return (
-    <View style={ui.stepperGroup}>
-      <Text style={ui.caption}>{label}</Text>
-      <View style={ui.stepper}>
+    <View className="gap-1">
+      <Text className={ui.caption}>{label}</Text>
+      <View className="flex-row items-center gap-2.5">
         <Pressable accessibilityRole="button" accessibilityLabel={`Decrease ${label} for ${exerciseName}`} disabled={value <= min}
-          aria-disabled={value <= min} onPress={() => onChange(value - 1)} style={[ui.stepButton, value <= min && ui.dimmed]}>
-          <Text style={ui.link}>−</Text>
+          aria-disabled={value <= min} onPress={() => onChange(value - 1)}
+          className={`min-h-11 min-w-11 items-center justify-center rounded-xl bg-slate-900 ${value <= min ? 'opacity-45' : ''}`}>
+          <Text className={ui.link}>−</Text>
         </Pressable>
-        <Text style={ui.label}>{value}</Text>
+        <Text className={ui.label}>{value}</Text>
         <Pressable accessibilityRole="button" accessibilityLabel={`Increase ${label} for ${exerciseName}`} disabled={value >= max}
-          aria-disabled={value >= max} onPress={() => onChange(value + 1)} style={[ui.stepButton, value >= max && ui.dimmed]}>
-          <Text style={ui.link}>+</Text>
+          aria-disabled={value >= max} onPress={() => onChange(value + 1)}
+          className={`min-h-11 min-w-11 items-center justify-center rounded-xl bg-slate-900 ${value >= max ? 'opacity-45' : ''}`}>
+          <Text className={ui.link}>+</Text>
         </Pressable>
       </View>
     </View>
@@ -101,50 +108,23 @@ export function Stepper({ label, exerciseName, value, min, max, onChange }: {
 }
 
 export function DumbbellMark() {
-  return <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={ui.dumbbell}>
-    <View style={ui.plate} /><View style={ui.bar} /><View style={ui.plate} />
+  return <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants"
+    className="h-13 w-13 rotate-[-25deg] flex-row items-center justify-center rounded-2xl bg-[#1e3a5f]">
+    <View className="h-6 w-2 rounded-sm bg-blue-400" /><View className="h-1 w-4 bg-blue-400" /><View className="h-6 w-2 rounded-sm bg-blue-400" />
   </View>;
 }
 
-export const ui = StyleSheet.create({
-  flex: { flex: 1 },
-  screen: { flex: 1, backgroundColor: colors.background },
-  content: { padding: 16, paddingTop: Platform.OS === 'web' ? 80 : 12, paddingBottom: 40, gap: 18, width: '100%', maxWidth: 640, alignSelf: 'center' },
-  header: { gap: 8, marginBottom: 4 },
-  eyebrow: { color: '#bfdbfe', fontSize: 12, fontWeight: '800', letterSpacing: 2, marginTop: 12 },
-  title: { color: colors.text, fontSize: 32, fontWeight: '800', letterSpacing: -0.8 },
-  subtitle: { color: colors.muted, fontSize: 15, lineHeight: 23 },
-  heading: { color: colors.text, fontSize: 21, fontWeight: '800' },
-  label: { color: colors.text, fontSize: 15, fontWeight: '700' },
-  caption: { color: colors.muted, fontSize: 13, lineHeight: 20 },
-  card: { backgroundColor: colors.card, borderRadius: 22, padding: 20, gap: 14 },
-  inset: { backgroundColor: colors.inset, padding: 14, borderRadius: 16, gap: 8 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  between: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
-  wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  section: { gap: 12 },
-  grow: { flex: 1, minWidth: 0 },
-  button: { backgroundColor: colors.accent, minHeight: 50, paddingHorizontal: 18, paddingVertical: 14, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  buttonText: { color: colors.accentText, fontSize: 15, fontWeight: '800', textAlign: 'center' },
-  secondaryButton: { backgroundColor: colors.inset, borderColor: colors.border, borderWidth: 1 },
-  secondaryButtonText: { color: colors.accent },
-  dimmed: { opacity: 0.45 },
-  chip: { minHeight: 44, borderRadius: 12, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.inset, paddingHorizontal: 13, paddingVertical: 11, justifyContent: 'center' },
-  selectedChip: { backgroundColor: colors.accent, borderColor: colors.accent },
-  chipText: { color: colors.muted, fontSize: 13, fontWeight: '700' },
-  selectedChipText: { color: colors.accentText },
-  field: { gap: 8 },
-  input: { backgroundColor: colors.inset, borderWidth: 1, borderColor: colors.border, borderRadius: 12, minHeight: 50, paddingHorizontal: 14, paddingVertical: 12, color: colors.text, fontSize: 16 },
-  message: { color: colors.success, fontSize: 14, lineHeight: 21 },
-  error: { color: colors.danger },
-  link: { color: colors.accent, fontSize: 16, fontWeight: '700' },
-  back: { minHeight: 44, justifyContent: 'center', alignSelf: 'flex-start' },
-  badge: { color: colors.accent, fontSize: 12, fontWeight: '800', letterSpacing: 0.5 },
-  divider: { height: 1, backgroundColor: colors.border },
-  stepperGroup: { gap: 4 },
-  stepper: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  stepButton: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.inset, borderRadius: 12 },
-  dumbbell: { width: 52, height: 52, borderRadius: 16, backgroundColor: '#1e3a5f', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '-25deg' }] },
-  plate: { width: 7, height: 24, backgroundColor: colors.accent, borderRadius: 3 },
-  bar: { width: 15, height: 5, backgroundColor: colors.accent },
-});
+// Tailwind classes shared by the workout screens.
+export const ui = {
+  subtitle: 'text-base text-slate-300',
+  heading: 'text-xl font-extrabold text-white',
+  label: 'text-base font-bold text-white',
+  caption: 'text-sm text-slate-300',
+  badge: 'text-xs font-extrabold tracking-wider text-blue-400',
+  link: 'text-base font-bold text-blue-400',
+  inset: 'gap-2 rounded-2xl bg-slate-900 p-3.5',
+  between: 'flex-row items-center justify-between gap-3',
+  wrap: 'flex-row flex-wrap gap-2',
+  section: 'gap-3',
+  grow: 'min-w-0 flex-1',
+};

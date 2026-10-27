@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { exerciseById } from '../../data/mock/Workouts';
 import { validSet } from '../../domain/workoutUtils';
 import type { WorkoutSet } from '../../domain/entities/Workout';
 import { useWorkouts } from '../models/WorkoutProvider';
-import { ActionButton, Card, Message, WorkoutScreen, colors, ui } from '../components/WorkoutUI';
+import { ActionButton, Card, Message, WorkoutScreen, ui } from '../components/WorkoutUI';
 
 export default function WorkoutLogScreen() {
   const { draft, setDraft, finishWorkout, newId } = useWorkouts();
@@ -16,8 +16,8 @@ export default function WorkoutLogScreen() {
 
   if (!draft) return <WorkoutScreen back title="Log a workout" subtitle="Choose a routine and make every set count.">
     <Card>
-      <Text style={ui.heading}>Ready to move?</Text>
-      <Text style={ui.subtitle}>Start a plan from Workouts to record your sets, reps, and weights.</Text>
+      <Text className={ui.heading}>Ready to move?</Text>
+      <Text className={ui.subtitle}>Start a plan from Workouts to record your sets, reps, and weights.</Text>
       <ActionButton label="Choose a workout" onPress={() => router.dismissTo('/workouts')} />
     </Card>
   </WorkoutScreen>;
@@ -46,46 +46,47 @@ export default function WorkoutLogScreen() {
   return (
     <WorkoutScreen back title="Log workout" subtitle={draft.planName}>
       <Card>
-        <Text style={ui.badge}>ONE SET AT A TIME</Text>
-        <View style={ui.between}>
-          <View style={ui.grow}><Text style={styles.total}>{completed.length}<Text style={styles.ofTotal}> / {allSets.length}</Text></Text>
-            <Text style={ui.caption}>sets completed</Text></View>
-          <View style={ui.grow}><Text style={styles.total}>{volume.toLocaleString()}</Text><Text style={ui.caption}>kg total volume</Text></View>
+        <Text className={ui.badge}>ONE SET AT A TIME</Text>
+        <View className={ui.between}>
+          <View className={ui.grow}><Text className="text-3xl font-extrabold text-white">{completed.length}<Text className="text-lg font-medium text-slate-300"> / {allSets.length}</Text></Text>
+            <Text className={ui.caption}>sets completed</Text></View>
+          <View className={ui.grow}><Text className="text-3xl font-extrabold text-white">{volume.toLocaleString()}</Text><Text className={ui.caption}>kg total volume</Text></View>
         </View>
-        <View role="progressbar" accessibilityLabel="Completed workout sets" aria-valuemin={0} aria-valuemax={allSets.length} aria-valuenow={completed.length} style={styles.track}>
-          <View style={[styles.progress, { width: `${progress * 100}%` }]} />
+        <View role="progressbar" accessibilityLabel="Completed workout sets" aria-valuemin={0} aria-valuemax={allSets.length} aria-valuenow={completed.length}
+          className="h-2 overflow-hidden rounded-full bg-slate-700">
+          <View className="h-full rounded-full bg-blue-400" style={{ width: `${progress * 100}%` }} />
         </View>
-        <Text style={ui.caption}>Enter what you did, then tap the check. Use 0 kg for bodyweight. Weight is the total load used for that exercise.</Text>
+        <Text className={ui.caption}>Enter what you did, then tap the check. Use 0 kg for bodyweight. Weight is the total load used for that exercise.</Text>
       </Card>
 
       {draft.exercises.map((exercise, exerciseIndex) => <Card key={exercise.exerciseId}>
-        <Text style={ui.badge}>EXERCISE {String(exerciseIndex + 1).padStart(2, '0')}</Text>
-        <Text style={ui.heading}>{exerciseById[exercise.exerciseId].name}</Text>
-        <Text style={ui.caption}>{exerciseById[exercise.exerciseId].equipment}</Text>
-        <View style={styles.setRow}>
-          <Text style={[ui.caption, styles.setNumber]}>Set</Text>
-          <Text style={[ui.caption, styles.inputColumn]}>kg</Text>
-          <Text style={[ui.caption, styles.inputColumn]}>Reps</Text>
-          <Text style={[ui.caption, styles.doneColumn]}>Done</Text>
+        <Text className={ui.badge}>EXERCISE {String(exerciseIndex + 1).padStart(2, '0')}</Text>
+        <Text className={ui.heading}>{exerciseById[exercise.exerciseId].name}</Text>
+        <Text className={ui.caption}>{exerciseById[exercise.exerciseId].equipment}</Text>
+        <View className="flex-row items-center gap-2">
+          <Text className={`${ui.caption} w-6 text-center`}>Set</Text>
+          <Text className={`${ui.caption} flex-1 text-center`}>kg</Text>
+          <Text className={`${ui.caption} flex-1 text-center`}>Reps</Text>
+          <Text className={`${ui.caption} w-11 text-center`}>Done</Text>
         </View>
-        {exercise.sets.map((set, setIndex) => <View key={set.id} style={[styles.setRow, set.completed && styles.completedRow]}>
-          <Text style={[ui.label, styles.setNumber]}>{setIndex + 1}</Text>
+        {exercise.sets.map((set, setIndex) => <View key={set.id} className={`flex-row items-center gap-2 ${set.completed ? 'opacity-90' : ''}`}>
+          <Text className={`${ui.label} w-6 text-center`}>{setIndex + 1}</Text>
           <TextInput accessibilityLabel={`${exerciseById[exercise.exerciseId].name}, set ${setIndex + 1}, weight in kilograms`}
             keyboardType="decimal-pad" value={set.weight} editable={!set.completed} maxLength={7} selectTextOnFocus
             onChangeText={weight => updateSet(exercise.exerciseId, set.id, { weight })}
-            style={[styles.setInput, set.completed && styles.lockedInput]} />
+            className={`min-h-12 min-w-0 flex-1 rounded-xl border bg-slate-900 px-1 py-2.5 text-center text-base ${set.completed ? 'border-[#315349] text-green-300' : 'border-slate-700 text-white'}`} />
           <TextInput accessibilityLabel={`${exerciseById[exercise.exerciseId].name}, set ${setIndex + 1}, reps`}
             keyboardType="number-pad" value={set.reps} editable={!set.completed} maxLength={3} selectTextOnFocus
             onChangeText={reps => updateSet(exercise.exerciseId, set.id, { reps })}
-            style={[styles.setInput, set.completed && styles.lockedInput]} />
+            className={`min-h-12 min-w-0 flex-1 rounded-xl border bg-slate-900 px-1 py-2.5 text-center text-base ${set.completed ? 'border-[#315349] text-green-300' : 'border-slate-700 text-white'}`} />
           <Pressable accessibilityRole="checkbox" aria-checked={set.completed}
             accessibilityLabel={`${exerciseById[exercise.exerciseId].name}, set ${setIndex + 1} complete`}
             onPress={() => {
               if (!set.completed && !validSet(set)) { setInvalidSetId(set.id); setError(`Check set ${setIndex + 1}: use 1–999 reps and 0–2,000 kg (up to 2 decimals).`); return; }
               setError('');
               updateSet(exercise.exerciseId, set.id, { completed: !set.completed });
-            }} style={[styles.done, set.completed && styles.doneSelected]}>
-            <Text style={[styles.check, set.completed && styles.selectedCheck]}>✓</Text>
+            }} className={`min-h-12 w-11 items-center justify-center rounded-xl border ${set.completed ? 'border-green-300 bg-green-300' : 'border-slate-700 bg-slate-900'}`}>
+            <Text className={`text-xl font-extrabold ${set.completed ? 'text-slate-900' : 'text-slate-300'}`}>✓</Text>
           </Pressable>
         </View>)}
         {!!error && exercise.sets.some(set => set.id === invalidSetId) && <Message error>{error}</Message>}
@@ -96,7 +97,7 @@ export default function WorkoutLogScreen() {
           setDraft(current => current && ({ ...current, exercises: current.exercises.map(item => item.exerciseId === exercise.exerciseId
             ? { ...item, sets: [...item.sets, nextSet] } : item) }));
         }} />
-        <Text style={ui.caption}>Tap a completed check again to edit that set.</Text>
+        <Text className={ui.caption}>Tap a completed check again to edit that set.</Text>
       </Card>)}
 
       <Card>
@@ -104,7 +105,7 @@ export default function WorkoutLogScreen() {
         {confirmFinish && <Message>{allSets.length - completed.length} sets are unfinished. Save only your {completed.length} completed sets?</Message>}
         <ActionButton label={confirmFinish ? 'Save completed sets' : 'Finish workout'} onPress={save} />
         {confirmFinish && <ActionButton secondary label="Keep training" onPress={() => setConfirmFinish(false)} />}
-        <Text style={ui.caption}>Completed sets are added to your recent activity. You can leave this screen and resume this session from Workouts.</Text>
+        <Text className={ui.caption}>Completed sets are added to your recent activity. You can leave this screen and resume this session from Workouts.</Text>
         {confirmDiscard ? <>
           <Message error>Discard this workout? All sets in this session will be lost.</Message>
           <ActionButton secondary label="Keep this workout" onPress={() => setConfirmDiscard(false)} />
@@ -114,21 +115,3 @@ export default function WorkoutLogScreen() {
     </WorkoutScreen>
   );
 }
-
-const styles = StyleSheet.create({
-  total: { color: colors.text, fontSize: 30, fontWeight: '800' },
-  ofTotal: { color: colors.muted, fontSize: 18, fontWeight: '500' },
-  track: { height: 8, backgroundColor: colors.border, borderRadius: 5, overflow: 'hidden' },
-  progress: { height: '100%', backgroundColor: colors.accent, borderRadius: 5 },
-  setRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  setNumber: { width: 25, textAlign: 'center' },
-  inputColumn: { flex: 1, textAlign: 'center' },
-  doneColumn: { width: 44, textAlign: 'center' },
-  setInput: { flex: 1, minWidth: 0, minHeight: 48, borderWidth: 1, borderColor: colors.border, borderRadius: 12, backgroundColor: colors.inset, color: colors.text, textAlign: 'center', fontSize: 16, paddingHorizontal: 4, paddingVertical: 10 },
-  lockedInput: { color: colors.success, borderColor: '#315349' },
-  completedRow: { opacity: 0.9 },
-  done: { width: 44, minHeight: 48, borderRadius: 12, backgroundColor: colors.inset, borderWidth: 1, borderColor: colors.border, alignItems: 'center', justifyContent: 'center' },
-  doneSelected: { backgroundColor: colors.success, borderColor: colors.success },
-  check: { color: colors.muted, fontSize: 20, fontWeight: '800' },
-  selectedCheck: { color: colors.accentText },
-});

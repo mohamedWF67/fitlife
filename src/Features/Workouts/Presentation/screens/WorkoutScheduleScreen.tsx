@@ -41,25 +41,25 @@ export default function WorkoutScheduleScreen() {
   return (
     <WorkoutScreen back title="Make room to move" subtitle="A balanced week has space for training and recovery.">
       <Card>
-        <Text style={ui.badge}>YOUR TRAINING CALENDAR</Text>
-        <Text style={ui.heading}>{(parsed ?? new Date()).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</Text>
-        <View style={ui.wrap}>{week.map(day => <Chip key={dateKey(day)}
+        <Text className={ui.badge}>YOUR TRAINING CALENDAR</Text>
+        <Text className={ui.heading}>{(parsed ?? new Date()).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</Text>
+        <View className={ui.wrap}>{week.map(day => <Chip key={dateKey(day)}
           label={`${day.toLocaleDateString('en', { weekday: 'short' })} ${day.getDate()}`} selected={date === dateKey(day)}
           onPress={() => chooseDate(dateKey(day))} />)}</View>
         <Field label="Date (YYYY-MM-DD)" value={date} onChangeText={chooseDate} maxLength={10} autoCapitalize="none" placeholder="2026-10-26" />
-        <Text style={ui.caption}>Choose a day above or enter any future date. Saving replaces the entry for that day.</Text>
-        <Text style={ui.label}>Type of day</Text>
-        <View style={ui.wrap}>{(['Workout', 'Rest day'] as const).map(item => <Chip key={item} label={item} selected={type === item}
+        <Text className={ui.caption}>Choose a day above or enter any future date. Saving replaces the entry for that day.</Text>
+        <Text className={ui.label}>Type of day</Text>
+        <View className={ui.wrap}>{(['Workout', 'Rest day'] as const).map(item => <Chip key={item} label={item} selected={type === item}
           onPress={() => { setType(item); setMessage(''); setError(''); }} />)}</View>
         {type === 'Workout' ? <>
-          <Text style={ui.label}>Workout plan</Text>
-          <View style={ui.wrap}>{plans.map(plan => <Chip key={plan.id} label={plan.name} selected={planId === plan.id}
+          <Text className={ui.label}>Workout plan</Text>
+          <View className={ui.wrap}>{plans.map(plan => <Chip key={plan.id} label={plan.name} selected={planId === plan.id}
             onPress={() => { setPlanId(plan.id); setMessage(''); }} />)}</View>
           <Field label="Start time (24-hour HH:MM)" value={time} onChangeText={value => { setTime(value); setMessage(''); }}
             maxLength={5} keyboardType="numbers-and-punctuation" placeholder="18:00" />
-        </> : <View style={ui.inset}>
-          <Text style={ui.label}>Recovery is part of the plan.</Text>
-          <Text style={ui.caption}>Give yourself a day to rest and come back refreshed.</Text>
+        </> : <View className={ui.inset}>
+          <Text className={ui.label}>Recovery is part of the plan.</Text>
+          <Text className={ui.caption}>Give yourself a day to rest and come back refreshed.</Text>
         </View>}
         {!!error && <Message error>{error}</Message>}
         {!!message && <Message>{message}</Message>}
@@ -67,13 +67,13 @@ export default function WorkoutScheduleScreen() {
       </Card>
 
       <Card>
-        <Text style={ui.heading}>Your schedule</Text>
-        {schedule.length === 0 && <Text style={ui.caption}>Your week is a blank canvas. Add a workout or a rest day above.</Text>}
-        {schedule.map(day => <View key={day.id} style={ui.inset}>
-          <Text style={ui.badge}>{day.type.toUpperCase()} · {day.date}</Text>
-          <Text style={ui.label}>{day.type === 'Rest day' ? 'Rest & recover' : plans.find(plan => plan.id === day.planId)?.name ?? 'Workout'}</Text>
-          {!!day.time && <Text style={ui.caption}>{day.time}</Text>}
-          <View style={ui.wrap}>
+        <Text className={ui.heading}>Your schedule</Text>
+        {schedule.length === 0 && <Text className={ui.caption}>Your week is a blank canvas. Add a workout or a rest day above.</Text>}
+        {schedule.map(day => <View key={day.id} className={ui.inset}>
+          <Text className={ui.badge}>{day.type.toUpperCase()} · {day.date}</Text>
+          <Text className={ui.label}>{day.type === 'Rest day' ? 'Rest & recover' : plans.find(plan => plan.id === day.planId)?.name ?? 'Workout'}</Text>
+          {!!day.time && <Text className={ui.caption}>{day.time}</Text>}
+          <View className={ui.wrap}>
             <Chip label="Edit day" selected={false} onPress={() => chooseDate(day.date)} />
             <Chip label="Remove day" selected={false} onPress={() => { removeScheduledDay(day.id); setMessage('Day removed from your schedule.'); setError(''); }} />
           </View>
