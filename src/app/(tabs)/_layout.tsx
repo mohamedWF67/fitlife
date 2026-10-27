@@ -2,7 +2,7 @@ import { Icon, Label } from "expo-router";
 import { NativeTabs } from "expo-router/native-tabs";
 import type { SFSymbol } from "sf-symbols-typescript";
 
-const icon2: SFSymbol = "leaf.fill";
+const icon2: SFSymbol = "drop.fill";
 
 export default function TabLayout() {
   return (
@@ -23,7 +23,7 @@ export default function TabLayout() {
         </NativeTabs.Trigger>
 
         <NativeTabs.Trigger name="waterReminder">
-            <Icon sf="waterbottle.fill" />
+            <Icon sf="drop.fill" />
             <Label>Hydration</Label>
         </NativeTabs.Trigger>
 

@@ -68,13 +68,13 @@ export default function WorkoutPlanScreen() {
           const isSelected = selected.some(item => item.exerciseId === exercise.id);
           return <Pressable key={exercise.id} accessibilityRole="checkbox" aria-checked={isSelected}
             accessibilityLabel={`${exercise.name}, ${exercise.muscle}, ${exercise.equipment}`} onPress={() => toggleExercise(exercise.id)}
-            className={`min-h-19 flex-row items-center gap-3 rounded-2xl border p-3.5 active:opacity-45 ${isSelected ? 'border-blue-400 bg-[#1b2d46]' : 'border-slate-700'}`}>
+            className={`min-h-19 flex-row items-center gap-3 rounded-2xl border p-3.5 active:opacity-45 ${isSelected ? 'border-[#5438be] bg-[#303049]' : 'border-[#303049]'}`}>
             <View className={ui.grow}>
               <Text className={ui.label}>{exercise.name}</Text>
               <Text className={ui.caption}>{exercise.muscle} · {exercise.equipment}</Text>
             </View>
-            <View className={`h-7 w-7 items-center justify-center rounded-lg border border-blue-400 ${isSelected ? 'bg-blue-400' : ''}`}>
-              <Text className={`text-lg font-bold ${isSelected ? 'text-slate-900' : 'text-white'}`}>{isSelected ? '✓' : '+'}</Text>
+            <View className={`h-7 w-7 items-center justify-center rounded-lg border border-[#5438be] ${isSelected ? 'bg-[#5438be]' : ''}`}>
+              <Text className="text-lg font-bold text-white">{isSelected ? '✓' : '+'}</Text>
             </View>
           </Pressable>;
         })}

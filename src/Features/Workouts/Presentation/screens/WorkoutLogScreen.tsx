@@ -48,13 +48,13 @@ export default function WorkoutLogScreen() {
       <Card>
         <Text className={ui.badge}>ONE SET AT A TIME</Text>
         <View className={ui.between}>
-          <View className={ui.grow}><Text className="text-3xl font-extrabold text-white">{completed.length}<Text className="text-lg font-medium text-slate-300"> / {allSets.length}</Text></Text>
+          <View className={ui.grow}><Text className="text-3xl font-extrabold text-white">{completed.length}<Text className="text-lg font-medium text-gray-500"> / {allSets.length}</Text></Text>
             <Text className={ui.caption}>sets completed</Text></View>
           <View className={ui.grow}><Text className="text-3xl font-extrabold text-white">{volume.toLocaleString()}</Text><Text className={ui.caption}>kg total volume</Text></View>
         </View>
         <View role="progressbar" accessibilityLabel="Completed workout sets" aria-valuemin={0} aria-valuemax={allSets.length} aria-valuenow={completed.length}
-          className="h-2 overflow-hidden rounded-full bg-slate-700">
-          <View className="h-full rounded-full bg-blue-400" style={{ width: `${progress * 100}%` }} />
+          className="h-2 overflow-hidden rounded-full bg-[#303049]">
+          <View className="h-full rounded-full bg-[#5438be]" style={{ width: `${progress * 100}%` }} />
         </View>
         <Text className={ui.caption}>Enter what you did, then tap the check. Use 0 kg for bodyweight. Weight is the total load used for that exercise.</Text>
       </Card>
@@ -74,19 +74,19 @@ export default function WorkoutLogScreen() {
           <TextInput accessibilityLabel={`${exerciseById[exercise.exerciseId].name}, set ${setIndex + 1}, weight in kilograms`}
             keyboardType="decimal-pad" value={set.weight} editable={!set.completed} maxLength={7} selectTextOnFocus
             onChangeText={weight => updateSet(exercise.exerciseId, set.id, { weight })}
-            className={`min-h-12 min-w-0 flex-1 rounded-xl border bg-slate-900 px-1 py-2.5 text-center text-base ${set.completed ? 'border-[#315349] text-green-300' : 'border-slate-700 text-white'}`} />
+            className={`min-h-12 min-w-0 flex-1 rounded-xl border px-1 py-2.5 text-center text-base ${set.completed ? 'border-[#315349] text-green-300' : 'border-gray-500 text-white'}`} />
           <TextInput accessibilityLabel={`${exerciseById[exercise.exerciseId].name}, set ${setIndex + 1}, reps`}
             keyboardType="number-pad" value={set.reps} editable={!set.completed} maxLength={3} selectTextOnFocus
             onChangeText={reps => updateSet(exercise.exerciseId, set.id, { reps })}
-            className={`min-h-12 min-w-0 flex-1 rounded-xl border bg-slate-900 px-1 py-2.5 text-center text-base ${set.completed ? 'border-[#315349] text-green-300' : 'border-slate-700 text-white'}`} />
+            className={`min-h-12 min-w-0 flex-1 rounded-xl border px-1 py-2.5 text-center text-base ${set.completed ? 'border-[#315349] text-green-300' : 'border-gray-500 text-white'}`} />
           <Pressable accessibilityRole="checkbox" aria-checked={set.completed}
             accessibilityLabel={`${exerciseById[exercise.exerciseId].name}, set ${setIndex + 1} complete`}
             onPress={() => {
               if (!set.completed && !validSet(set)) { setInvalidSetId(set.id); setError(`Check set ${setIndex + 1}: use 1–999 reps and 0–2,000 kg (up to 2 decimals).`); return; }
               setError('');
               updateSet(exercise.exerciseId, set.id, { completed: !set.completed });
-            }} className={`min-h-12 w-11 items-center justify-center rounded-xl border ${set.completed ? 'border-green-300 bg-green-300' : 'border-slate-700 bg-slate-900'}`}>
-            <Text className={`text-xl font-extrabold ${set.completed ? 'text-slate-900' : 'text-slate-300'}`}>✓</Text>
+            }} className={`min-h-12 w-11 items-center justify-center rounded-xl border ${set.completed ? 'border-green-300 bg-green-300' : 'border-[#303049] bg-[#303049]'}`}>
+            <Text className={`text-xl font-extrabold ${set.completed ? 'text-[#18152b]' : 'text-gray-300'}`}>✓</Text>
           </Pressable>
         </View>)}
         {!!error && exercise.sets.some(set => set.id === invalidSetId) && <Message error>{error}</Message>}

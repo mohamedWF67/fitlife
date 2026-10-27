@@ -38,7 +38,7 @@ export default function WorkoutsScreen() {
           { value: weeklySessions.length.toString(), label: 'Workouts' },
           { value: totalSets.toString(), label: 'Sets done' },
           { value: totalVolume.toLocaleString(), label: 'Volume (kg)' },
-        ].map(stat => <View key={stat.label} className="flex-1 gap-1 rounded-2xl bg-[#151b2c] p-3">
+        ].map(stat => <View key={stat.label} className="flex-1 gap-1 rounded-2xl bg-[#26263b] p-3">
           <Text className="text-2xl font-extrabold text-white">{stat.value}</Text>
           <Text className={ui.caption}>{stat.label}</Text>
         </View>)}
@@ -59,14 +59,14 @@ export default function WorkoutsScreen() {
             const key = dateKey(date);
             const day = schedule.find(item => item.date === key);
             const isToday = key === dateKey(new Date());
-            const dot = day?.type === 'Workout' ? 'border border-[#144577] bg-blue-300'
-              : day?.type === 'Rest day' ? 'border border-green-800 bg-green-300' : 'bg-slate-700';
+            const dot = day?.type === 'Workout' ? 'border border-[#18152b] bg-blue-300'
+              : day?.type === 'Rest day' ? 'border border-green-800 bg-green-300' : 'bg-gray-600';
             return <Pressable key={key} accessibilityRole="button"
               accessibilityLabel={`${date.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}, ${day?.type ?? 'Unscheduled'}`}
               onPress={() => router.push({ pathname: '/workouts/schedule', params: { date: key } })}
-              className={`min-h-20 flex-1 items-center justify-center gap-2 rounded-xl ${isToday ? 'bg-blue-400' : 'bg-slate-900'}`}>
-              <Text className={`text-xs font-semibold ${isToday ? 'text-slate-900' : 'text-slate-300'}`}>{date.toLocaleDateString('en', { weekday: 'short' }).slice(0, 1)}</Text>
-              <Text className={`text-lg font-extrabold ${isToday ? 'text-slate-900' : 'text-white'}`}>{date.getDate()}</Text>
+              className={`min-h-20 flex-1 items-center justify-center gap-2 rounded-xl ${isToday ? 'bg-[#5438be]' : 'bg-[#303049]'}`}>
+              <Text className={`text-xs font-semibold ${isToday ? 'text-white' : 'text-gray-300'}`}>{date.toLocaleDateString('en', { weekday: 'short' }).slice(0, 1)}</Text>
+              <Text className="text-lg font-extrabold text-white">{date.getDate()}</Text>
               <View className={`h-1.5 w-1.5 rounded-full ${dot}`} />
             </Pressable>;
           })}
@@ -94,8 +94,8 @@ export default function WorkoutsScreen() {
             <DumbbellMark />
           </View>
           <View className={ui.wrap}>
-            <Text className="rounded-lg bg-slate-900 px-2.5 py-2 text-xs text-slate-300">{plan.goal}</Text>
-            <Text className="rounded-lg bg-slate-900 px-2.5 py-2 text-xs text-slate-300">{plan.daysPerWeek} days / week</Text>
+            <Text className="rounded-lg bg-[#303049] px-2.5 py-2 text-xs text-gray-300">{plan.goal}</Text>
+            <Text className="rounded-lg bg-[#303049] px-2.5 py-2 text-xs text-gray-300">{plan.daysPerWeek} days / week</Text>
           </View>
           <View className={ui.wrap}>
             <Chip label="Edit plan" selected={false}
