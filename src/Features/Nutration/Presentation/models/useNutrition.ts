@@ -1,8 +1,8 @@
-import {useMemo, useState} from "react";
+import {createContext, useContext, useMemo, useState} from "react";
 import {NutritionEntry} from "@/Features/Nutration/domain/entities/NutritionLog";
 import {Nutrition} from "@/Features/Nutration/data/mock/Nutrition";
 
-type Macros = {calories: number, proteins: number, carbs: number, fats: number};
+export type Macros = {calories: number, proteins: number, carbs: number, fats: number};
 
 const defaultGoals: Macros = {calories: 2000, proteins: 120, carbs: 250, fats: 70};
 
@@ -11,7 +11,8 @@ const getTodayKey = () => {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 
-export const useNutrition = () => {
+// Owns the nutrition state. Only NutritionProvider calls this; screens use useNutrition() to share one copy.
+export const useNutritionState = () => {
 
     const allEntries = Nutrition;
 
@@ -43,6 +44,13 @@ export const useNutrition = () => {
         fats: Math.min(totals.fats / goals.fats, 1),
     };
 
+    const entakeProgress: Macros = {
+        calories: Math.min(totals.calories / (goals.calories / 3), 1),
+        proteins: Math.min(totals.proteins / (goals.proteins / 3), 1),
+        carbs: Math.min(totals.carbs / (goals.carbs / 3), 1),
+        fats: Math.min(totals.fats / (goals.carbs / 3), 1),
+    };
+
     const addMeal = (meal: Macros) => {
         if (meal.calories <= 0) return;
         const now = new Date();
@@ -70,5 +78,13 @@ export const useNutrition = () => {
         setEntries([]);
         console.log(Date.now() + " Resetting nutrition");
     }
-    return {allEntries,meals,entries,goals,totals, progress, addMeal, removeMeal,removeLastMeal, resetNutrition};
+    return {allEntries,meals,entries,goals,totals, progress,entakeProgress, addMeal, removeMeal,removeLastMeal, resetNutrition};
+}
+
+export const NutritionContext = createContext<ReturnType<typeof useNutritionState> | null>(null);
+
+export const useNutrition = () => {
+    const nutrition = useContext(NutritionContext);
+    if (!nutrition) throw new Error("useNutrition must be used inside NutritionProvider");
+    return nutrition;
 }

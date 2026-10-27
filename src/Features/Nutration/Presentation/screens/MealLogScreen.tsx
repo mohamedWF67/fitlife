@@ -6,8 +6,8 @@ import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
-export default function addEntry() {
-    const {entries, goals} = useNutrition();
+export default function MealLogScreen() {
+    const {entries, goals, entakeProgress} = useNutrition();
     return(
         <View className={"flex-1"}>
             <FlatList
@@ -15,8 +15,8 @@ export default function addEntry() {
                 data={entries}
                 keyExtractor={(item) => item.id}
                 renderItem={(item) =>
-                    <MealItem item={item.item} goals={goals} />
-            }/>
+                    <MealItem item={item.item} goals={entakeProgress} />
+                }/>
         </View>
     )
 }

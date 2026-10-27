@@ -9,8 +9,7 @@ type props = {
 }
 
 export default function AttribuiteItem({item,progress,name,color}:props) {
-    const progressPercent = `${item / progress * 100}%`;
-    const percentage = item / progress
+    const progressPercent = `${progress * 100}%`;
 
     return(
         <View className={"flex flex-col w-24 justify-center"}>
@@ -22,7 +21,7 @@ export default function AttribuiteItem({item,progress,name,color}:props) {
                     className={"h-full rounded-2xl absolute"}
                     style={{
                         backgroundColor: interpolateColor(
-                            percentage,
+                            progress,
                             [0, 0.5, 1],
                             ["#EF4444", "#F59E0B", "#22C55E"]
                         ),
