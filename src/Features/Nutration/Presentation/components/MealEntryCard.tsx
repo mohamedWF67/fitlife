@@ -22,13 +22,14 @@ export default function MealEntryCard({addMeal}:props){
     }
 
     return(
-        <View className={"p-5 rounded-3xl bg-blue-950"}>
-            <Text className={"font-bold text-xl"}>{calories} {proteins}</Text>
+        <View className={"flex p-5 mb-3 gap-2 rounded-3xl bg-[#26263b]"}>
             <MealEntryItem Title={"Calories"} value={calories} onChangeText={setCalories}/>
             <MealEntryItem Title={"Proteins"} value={proteins} onChangeText={setProteins}/>
             <MealEntryItem Title={"Carbs"} value={carbs} onChangeText={setCarbs}/>
             <MealEntryItem Title={"Fats"} value={fats} onChangeText={setFats}/>
-            <Pressable onPress={saveMeal} disabled={calories === ""} className={"bg-blue-500 rounded-xl p-2"}><Text>Save</Text></Pressable>
+            <Pressable onPress={saveMeal} disabled={calories === ""} className="bg-gray-700 rounded-2xl p-4">
+                <Text className={"text-white font-bold"}>Add Meal</Text>
+            </Pressable>
         </View>
     );
 }

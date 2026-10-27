@@ -14,7 +14,7 @@ export default function MealEntryItem({Title, value, onChangeText}:props){
         <View>
             <Text className={"text-white pl-2 font-bold"}>{Title}</Text>
                 <TextInput
-                    className={"w-full rounded-2xl border border-gray-500 p-2 mb-2 text-white"}
+                    className={"w-full rounded-2xl border border-gray-500 p-2 text-gray-200 font-semibold"}
                     placeholder={placeholder}
                     keyboardType="numeric"
                     value={value}
