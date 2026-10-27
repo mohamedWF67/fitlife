@@ -21,7 +21,7 @@ export default function CalorieCircle({totals, goals, progress}:props) {
                 <Pressable
                     onPress={() => router.push("/(tabs)/nutrition/add-entry")}
                     className="bg-gray-700 rounded-2xl p-4">
-                    <Text className={"text-white text-2xl font-bold text-center"}>Add Meal</Text>
+                    <Text className={"text-white text-2xl font-bold text-center"}>Meal Log</Text>
                 </Pressable>
                 <BottomSheet isPresented={isPresented} onDismiss={() => setIsPresented(false)}>
                     <Column spacing={12}>

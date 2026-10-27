@@ -4,13 +4,8 @@ export default function NutritionLayout() {
     return (
         <Stack
             screenOptions={{
-                headerStyle: {
-                    backgroundColor: "#151B2C",
-                },
-                headerTintColor: "#FFFFFF",
-                headerShadowVisible: false,
                 contentStyle: {
-                    backgroundColor: "#151B2C",
+                    backgroundColor: "#18152b",
                 },
             }}>
             <Stack.Screen
@@ -23,8 +18,8 @@ export default function NutritionLayout() {
             <Stack.Screen
                 name="add-entry"
                 options={{
-                    title: "Add Entry",
-                    headerShown: true
+                    title: "Meal Log",
+                    headerTintColor: "#ffffff"
                 }}
             />
         </Stack>

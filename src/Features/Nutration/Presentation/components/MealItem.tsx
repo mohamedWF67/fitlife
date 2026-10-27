@@ -1,29 +1,19 @@
 import {View,Text} from "react-native";
 import {NutritionEntry} from "@/Features/Nutration/domain/entities/NutritionLog";
+import AttribuiteItem from "@/Features/Nutration/Presentation/components/AttribuiteItem";
 
 type props = {
     item: NutritionEntry
+    goals: {calories: number, proteins: number, carbs: number, fats: number},
 }
 
-export default function MealItem({item}:props) {
+export default function MealItem({item,goals}:props) {
     return(
-        <View className={"flex flex-row p-5 mb-3 justify-around rounded-3xl bg-[#26263b]"}>
-            <View className={"flex flex-col justify-center"}>
-                <Text className={"text-white text-2xl font-bold text-center"}>Calories</Text>
-                <Text className={"text-white text-2xl font-bold text-center"}>{item.calories}</Text>
-            </View>
-            <View className={"flex flex-col justify-center"}>
-                <Text className={"text-white text-2xl font-bold text-center"}>Protein</Text>
-                <Text className={"text-white text-2xl font-bold text-center"}>{item.proteins}</Text>
-            </View>
-            <View className={"flex flex-col justify-center"}>
-                <Text className={"text-white text-2xl font-bold text-center"}>Carbs</Text>
-                <Text className={"text-white text-2xl font-bold text-center"}>{item.carbs}</Text>
-            </View>
-            <View className={"flex flex-col justify-center"}>
-                <Text className={"text-white text-2xl font-bold text-center"}>Calories</Text>
-                <Text className={"text-white text-2xl font-bold text-center"}>{item.fats}</Text>
-            </View>
+        <View className={"flex flex-row p-4 mb-3 justify-between rounded-3xl bg-[#26263b]"}>
+            <AttribuiteItem color={"#b56e26"} name={"Calories"} progress={goals.calories} item={item.calories}/>
+            <AttribuiteItem color={"#b56e26"} name={"Proteins"} progress={goals.proteins} item={item.proteins}/>
+            <AttribuiteItem color={"#50b1a2"} name={"Carbs"} progress={goals.carbs} item={item.carbs}/>
+            <AttribuiteItem color={"#9b3b4f"} name={"Fats"} progress={goals.fats} item={item.fats}/>
         </View>
     )
 }

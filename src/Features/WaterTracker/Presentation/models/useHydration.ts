@@ -26,7 +26,8 @@ export const useHydration = () => {
 
     const addWater = (amountMl: number) => {
         if (amountMl <= 0) return;
-        const time = new Date().getHours().toString().padStart(2,'0') + ":" + new Date().getMinutes().toString().padStart(2,'0');
+        const time = new Date().getHours().toString().padStart(2,'0') + ":" +
+            new Date().getMinutes().toString().padStart(2,'0');
         console.log(Date.now() + " Adding " + amountMl);
         setEntries(prev => [...prev, {id: Date.now().toString(), time, amountMl}]);
     }
