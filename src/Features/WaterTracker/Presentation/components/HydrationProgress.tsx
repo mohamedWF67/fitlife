@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View} from "react-native";
+import { Pressable, Text, View} from "react-native";
 import {Host, Button, Picker, Row, Spacer} from '@expo/ui';
 import {useState} from "react";
 import Animated, { FadeIn,} from "react-native-reanimated";
@@ -18,7 +18,7 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                     <Animated.Text
                         key={total}
                         entering={FadeIn.duration(100)}
-                        style={styles.title}>{total}</Animated.Text>
+                        className="text-white text-4xl font-extrabold">{total}</Animated.Text>
                     <Pressable onLongPress={() => console.log("Long press")}>
                     <Animated.Text
                         className="text-gray-500 text-left"
@@ -29,7 +29,7 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                     <Pressable onLongPress={() => console.log("Long press")}>
                         <Animated.Text
                             entering={FadeIn.duration(100)}
-                            style={styles.title}>{goal} ml</Animated.Text>
+                            className="text-white text-4xl font-extrabold">{goal} ml</Animated.Text>
                     </Pressable>
                     <Animated.Text
                         className="text-gray-500 text-right"
@@ -77,10 +77,3 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
         </Animated.View>
     )
 }
-
-const styles = StyleSheet.create({
-    card: { backgroundColor: '#26263b', borderRadius: 22, padding: 28, overflow: 'hidden' },
-    emoji: { fontSize: 40 },
-    title: { color: 'white', fontSize: 29, fontWeight: '800', marginTop: 0 },
-    pickerContainer: { height: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' , justifyContent: 'space-between', margin: 10,backgroundColor: '#ff0000' },
-    subtitle: { color: '#cbd5e1', fontSize: 16, marginTop: 8 } });

@@ -1,4 +1,4 @@
-import {StyleSheet, View} from "react-native";
+import {View} from "react-native";
 import {Host, Button, Text, Spacer, Row, Column} from '@expo/ui';
 
 type props = {amount: number, id: string, time: string, removeWater: (id: string) => void}
@@ -9,7 +9,7 @@ export default function HydrationEntryItem({amount, id, time,removeWater}: props
     const formatedmin = min.toString().padStart(2,'0');
     const ampm = hours < 12 ? "AM" : "PM";
     return(
-        <View style={styles.card}>
+        <View className="flex-col p-4 rounded-3xl bg-[#26263b]">
             <Host   matchContents={{ horizontal: false, vertical: true }}
                     style={{ width: '100%'}}>
                 <Row alignment={"center"}>
@@ -24,10 +24,3 @@ export default function HydrationEntryItem({amount, id, time,removeWater}: props
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    card: { backgroundColor: '#26263b', borderRadius: 22, padding: 16, flexDirection: 'column' },
-    emoji: { fontSize: 40 },
-    title: { color: 'white', fontSize: 29, fontWeight: '800', marginTop: 0 },
-    pickerContainer: { height: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' , justifyContent: 'space-between', margin: 10,backgroundColor: '#ff0000' },
-    subtitle: { color: '#cbd5e1', fontSize: 16 } });

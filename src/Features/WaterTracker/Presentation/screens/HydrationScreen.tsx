@@ -1,11 +1,15 @@
-import {Animated, KeyboardAvoidingView, Platform, StyleSheet, View, Text} from 'react-native';
+import {Animated, KeyboardAvoidingView, Platform, View, Text} from 'react-native';
 import HydrationProgress from "@/Features/WaterTracker/Presentation/components/HydrationProgress";
 import {useHydration} from "@/Features/WaterTracker/Presentation/models/useHydration";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { styled } from "nativewind";
+import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import HydrationEntryItem from "@/Features/WaterTracker/Presentation/components/HydrationEntryItem";
 import FlatList = Animated.FlatList;
 import Reanimated from "react-native-reanimated";
 import GlobalGradientBackground from "@/components/GlobalGradientBackground";
+
+const SafeAreaView = styled(RNSafeAreaView);
+
 export default function HydrationScreen() {
     const {entries,cups,goal,total, progress, addWater, removeWater,removeLastWater, resetHydration} = useHydration();
     const isEntriesEmpty = entries.length === 0;
@@ -15,7 +19,7 @@ export default function HydrationScreen() {
         <Reanimated.View className={"absolute left-0 right-0 rounded-tl-3xl rounded-tr-3xl bottom-0 bg-blue-400"}
                          style={{height: `${progress * 100}%`,transitionProperty: 'height',
                              transitionDuration: 300,transitionTimingFunction: 'ease-in-out'}}/>
-        <SafeAreaView style={styles.content}>
+        <SafeAreaView className="flex-1">
             <KeyboardAvoidingView
                 style={{ flex: 1 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -32,23 +36,10 @@ export default function HydrationScreen() {
                     :
                     <Text className="flex-1 text-3xl font-bold text-center text-gray-200 mt-4">No entries yet, start drinking water!</Text>
                 }
-            <View style={styles.bottomPanel}>
+            <View className="pt-3 pb-3">
                 <HydrationProgress cups={cups} entries={entries} removeLastWater={() => removeLastWater()} addWater={addWater} resetHydration={() => resetHydration()} total={total} progress={progress} goal={goal} />
             </View>
-
         </KeyboardAvoidingView>
         </SafeAreaView>
         </View>
 }
-const styles = StyleSheet.create({
-    screen: { flex: 1, paddingHorizontal: 16, backgroundColor: "#18152b" },
-    body: { color: '#334155', fontSize: 16, marginTop: 18, lineHeight: 24 },
-    link: { color: '#2563eb', fontWeight: '700', fontSize: 16, marginTop: 24 },
-    content: {
-        flex: 1,
-    },
-    bottomPanel: {
-        paddingTop: 12,
-        paddingBottom: 12,
-    },
-});
