@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {createContext, useContext, useMemo, useState} from "react";
 import { HydrationEntry} from "@/Features/WaterTracker/domain/entities/HydrationLog";
 import { Hydration } from "@/Features/WaterTracker/data/mock/Hydration";
 
@@ -7,7 +7,8 @@ const getTodayKey = () => {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 
-export const useHydration = () => {
+// Owns the hydration state. Only HydrationProvider calls this; screens use useHydration() to share one copy.
+export const useHydrationState = () => {
 
     const allentries = Hydration;
 
@@ -52,4 +53,12 @@ export const useHydration = () => {
         console.log(Date.now() + " Resetting hydration");
     }
     return {allentries,cups,entries,goal,total, progress, addWater, removeWater,removeLastWater, resetHydration};
+}
+
+export const HydrationContext = createContext<ReturnType<typeof useHydrationState> | null>(null);
+
+export const useHydration = () => {
+    const hydration = useContext(HydrationContext);
+    if (!hydration) throw new Error("useHydration must be used inside HydrationProvider");
+    return hydration;
 }

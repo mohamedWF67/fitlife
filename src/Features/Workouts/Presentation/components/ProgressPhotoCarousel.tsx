@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Pressable, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { ActionButton, Card, Message, ui } from './WorkoutUI';
 import { useProgressPhotos, type CarouselPhoto } from '../models/useProgressPhotos';
 import { parseDate } from '../../domain/workoutUtils';
 
@@ -22,15 +21,17 @@ export default function ProgressPhotoCarousel() {
   }, [photos.length]);
 
   return (
-    <Card>
-      <Text className={ui.badge}>PROGRESS PHOTOS</Text>
-      <Text className={ui.heading}>{"See how far you've come"}</Text>
+    <View className="p-5 gap-3 rounded-3xl bg-[#26263b]">
+      <View>
+        <Text className="text-white text-2xl font-bold">Progress Photos</Text>
+        <Text className="text-gray-500 font-semibold">{"See how far you've come"}</Text>
+      </View>
 
-      {photos.length === 0 ? <View className={ui.inset}>
-        <Text className={ui.label}>No progress photos yet.</Text>
-        <Text className={ui.caption}>Take your first one to start tracking your progress.</Text>
+      {photos.length === 0 ? <View className="gap-1 rounded-2xl bg-[#303049] p-4">
+        <Text className="text-white font-bold">No progress photos yet.</Text>
+        <Text className="text-gray-300">Take your first one to start tracking your progress.</Text>
       </View> : <>
-        <View className="overflow-hidden rounded-2xl" onLayout={e => setWidth(e.nativeEvent.layout.width)}>
+        <View className="overflow-hidden rounded-2xl bg-[#303049]" onLayout={e => setWidth(e.nativeEvent.layout.width)}>
           {width > 0 && <FlatList ref={listRef} data={photos} keyExtractor={photo => photo.id}
             horizontal pagingEnabled showsHorizontalScrollIndicator={false} scrollEventThrottle={16}
             onScroll={e => setIndex(Math.round(e.nativeEvent.contentOffset.x / width))}
@@ -39,27 +40,29 @@ export default function ProgressPhotoCarousel() {
               accessibilityLabel={`Progress photo from ${item.date} at ${item.time}`}
               style={{ width, aspectRatio: 3 / 4 }} />} />}
         </View>
-        {current && <View className={ui.between}>
-          <Text className={ui.label}>
+        {current && <View className="flex-row items-center justify-between">
+          <Text className="text-white font-bold">
             {parseDate(current.date)?.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })} · {current.time}
           </Text>
-          <Text className={ui.caption}>{shown + 1} / {photos.length}</Text>
+          <Text className="text-gray-500">{shown + 1} / {photos.length}</Text>
         </View>}
         <View className="flex-row justify-center gap-1.5">
           {photos.map((photo, dotIndex) => <View key={photo.id}
-            className={`h-1.5 rounded-full ${dotIndex === shown ? 'w-4 bg-blue-400' : 'w-1.5 bg-slate-700'}`} />)}
+            className={`h-1.5 rounded-full ${dotIndex === shown ? 'w-4 bg-[#5438be]' : 'w-1.5 bg-[#303049]'}`} />)}
         </View>
       </>}
 
-      {!!error && <Message error>{error}</Message>}
+      {!!error && <Text accessibilityRole="alert" className="text-red-400">{error}</Text>}
       <View className="flex-row gap-3">
-        <View className="flex-1">
-          <ActionButton secondary label="Delete photo" disabled={!current} onPress={() => current && removePhoto(current.id)} />
-        </View>
-        <View className="flex-1">
-          <ActionButton label="Take photo" onPress={takePhoto} />
-        </View>
+        <Pressable accessibilityRole="button" disabled={!current} onPress={() => current && removePhoto(current.id)}
+          className={`flex-1 rounded-2xl p-4 bg-[#303049] active:opacity-50 ${current ? '' : 'opacity-50'}`}>
+          <Text className="text-white font-bold text-center">Delete photo</Text>
+        </Pressable>
+        <Pressable accessibilityRole="button" onPress={takePhoto}
+          className="flex-1 rounded-2xl p-4 bg-[#5438be] active:opacity-50">
+          <Text className="text-white font-bold text-center">Take photo</Text>
+        </Pressable>
       </View>
-    </Card>
+    </View>
   );
 }

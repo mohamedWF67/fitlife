@@ -1,1 +1,1 @@
-export {default} from "@/Features/Workouts/Presentation/screens/ProgressPhotosScreen";
+export {default} from "@/Features/Dashboard/Presentation/screens/DashboardScreen";

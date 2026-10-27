@@ -2,7 +2,7 @@ import { Icon, Label } from "expo-router";
 import { NativeTabs } from "expo-router/native-tabs";
 import type { SFSymbol } from "sf-symbols-typescript";
 
-const icon2: SFSymbol = "music.microphone.circle.fill";
+const icon2: SFSymbol = "leaf.fill";
 
 export default function TabLayout() {
   return (
@@ -16,11 +16,11 @@ export default function TabLayout() {
             <Label>Workouts</Label>
         </NativeTabs.Trigger>
       <NativeTabs.Trigger name="nutrition">
-        <Icon sf={icon2} />
+        <Icon sf="leaf.fill" />
         <Label>Nutrition</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="waterReminder">
-        <Icon sf="waterbottle" />
+        <Icon sf="waterbottle.fill" />
         <Label>Water</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="sleep">
