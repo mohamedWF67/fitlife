@@ -7,6 +7,7 @@ import HydrationEntryItem from "@/Features/WaterTracker/Presentation/components/
 import FlatList = Animated.FlatList;
 import Reanimated from "react-native-reanimated";
 import GlobalGradientBackground from "@/components/GlobalGradientBackground";
+import {Ionicons} from "@react-native-vector-icons/ionicons";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
@@ -34,7 +35,12 @@ export default function HydrationScreen() {
                         </View>
                     }/>
                     :
-                    <Text className="flex-1 text-3xl font-bold text-center text-gray-200 mt-4">No entries yet, start drinking water!</Text>
+                    <View className={"flex-1 items-center"}>
+                    <Ionicons name={"water-outline"} size={36} color={"gray"}/>
+                    <Text className="flex-1 text-3xl font-bold text-center text-gray-500 mt-4">
+                        Start drinking water!
+                    </Text>
+                    </View>
                 }
             <View className="pt-3 pb-3">
                 <HydrationProgress cups={cups} entries={entries} removeLastWater={() => removeLastWater()} addWater={addWater} resetHydration={() => resetHydration()} total={total} progress={progress} goal={goal} />

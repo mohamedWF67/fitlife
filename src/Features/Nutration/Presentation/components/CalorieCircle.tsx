@@ -3,6 +3,7 @@ import {router} from "expo-router";
 import {useEffect, useState} from "react";
 import Svg, {Circle} from "react-native-svg";
 import Animated, {Easing, useAnimatedProps, useSharedValue, withTiming} from "react-native-reanimated";
+import {Ionicons} from "@react-native-vector-icons/ionicons";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const ringWidth = 24;
@@ -29,11 +30,11 @@ export default function CalorieCircle({totals, goals, progress}:props) {
     }));
 
     const isGoalReached = totals.calories >= goals.calories;
-    const remainingCalories = Math.max(goals.calories - totals.calories,0).toString().padStart(4,'0');
+    const remainingCalories = Math.max(goals.calories - totals.calories,0);
 
     return(
         <View className={"flex-1 p-5 gap-2 rounded-3xl bg-[#26263b]"}>
-            <Text className={"text-white text-4xl font-bold text-center"}>Calories</Text>
+            <Text className={"text-gray-500 text-4xl font-bold text-center"}>Calories</Text>
             <View className="flex-1">
                 <View
                     className={"flex-1 mb-4 justify-center items-center"}
@@ -64,11 +65,19 @@ export default function CalorieCircle({totals, goals, progress}:props) {
                             </Svg>
                         </View>
                     )}
+                    <Ionicons name={(isGoalReached ? "flame": "flame-outline")} size={46} className={"mb-2 absolute top-1/5"} color={"#5438be"} />
                     {!isGoalReached ?
                         <>
-                            <Text className={"text-white text-6xl font-bold text-center"} style={{marginBottom: -10}}>
-                                {Math.max(goals.calories - totals.calories,0)}
-                                <Text className={"text-gray-300 text-xs font-bold text-center pl-1"}>left</Text>
+                            <Text
+                                className={"text-white text-6xl font-bold text-center"}
+                                style={{marginBottom: -10}}
+                            >
+                                {remainingCalories}
+                                <Text
+                                    className={"text-gray-300 text-xs font-bold text-center pl-1"}
+                                >
+                                    left
+                                </Text>
                             </Text>
                         </>
                         :
@@ -76,18 +85,26 @@ export default function CalorieCircle({totals, goals, progress}:props) {
                             Goal Reached
                         </Text>
                     }
-                    <Text className={"text-gray-500 text-2xl font-bold text-center"}>{totals.calories} / {goals.calories}</Text>
+                    <Text className={"text-gray-500 text-2xl font-bold text-center"}>
+                        {totals.calories} / {goals.calories}
+                    </Text>
                 </View>
                 <View className={"flex-row flex items-center justify-around"}>
                     <Pressable
                         onPress={() => router.push("/(tabs)/nutrition/MealEntry")}
-                        className="rounded-2xl p-4">
-                        <Text className={"text-white text-2xl font-bold text-center"}>Add Meal</Text>
+                        className="rounded-2xl p-4"
+                    >
+                        <Text className={"text-white text-2xl font-bold text-center"}>
+                            Add Meal
+                        </Text>
                     </Pressable>
                     <Pressable
                         onPress={() => router.push("/(tabs)/nutrition/MealLog")}
-                        className="rounded-2xl p-4">
-                        <Text className={"text-white text-2xl font-bold text-center"}>Meal Log</Text>
+                        className="rounded-2xl p-4"
+                    >
+                        <Text className={"text-white text-2xl font-bold text-center"}>
+                            Meal Log
+                        </Text>
                     </Pressable>
                 </View>
             </View>

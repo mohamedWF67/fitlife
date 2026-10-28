@@ -1,6 +1,4 @@
 import {View, Text, TextInput} from "react-native";
-import {Host} from "@expo/ui";
-import {NutritionEntry} from "@/Features/Nutration/domain/entities/NutritionLog";
 
 type props = {
     Title: string,

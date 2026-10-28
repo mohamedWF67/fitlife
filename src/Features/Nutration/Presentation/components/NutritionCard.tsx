@@ -15,18 +15,21 @@ export default function NutritionCard({totals, goals, progress}:props) {
                 value={progress.proteins}
                 current={totals.proteins}
                 target={goals.proteins}
+                icon={"fish"}
                 color={"#b56e26"}/>
             <AnimatedProgressBar
                 Label={"Carbs"}
                 value={progress.carbs}
                 current={totals.carbs}
                 target={goals.carbs}
+                icon={"leaf"}
                 color={"#50b1a2"}/>
             <AnimatedProgressBar
                 Label={"Fats"}
                 value={progress.fats}
                 current={totals.fats}
                 target={goals.fats}
+                icon={"fast-food"}
                 color={"#9b3b4f"}/>
         </View>
     )

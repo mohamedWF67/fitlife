@@ -50,8 +50,8 @@ export default function DashboardScreen() {
                 </DashboardCard>
 
                 <DashboardCard
-                    title="Water" value={hydration.total} unit={`/ ${hydration.goal} ml`}
-                    caption={`${hydration.cups} cups today`}
+                    title="Hydration" value={hydration.total} unit={`/ ${hydration.goal} ml`}
+                    caption={`${hydration.cups} Intake`}
                     progress={hydration.progress} barColor="bg-blue-400"/>
 
                 <DashboardCard

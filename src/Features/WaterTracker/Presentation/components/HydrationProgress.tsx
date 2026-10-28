@@ -10,6 +10,8 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
     const [quickAmount, setQuickAmount] = useState<number | "Custom">(QuickAmounts[0]);
     const [customAmount, setCustomAmount] = useState("");
     const isCustomAmount = quickAmount === "Custom";
+    const remainingAmount = Math.max(goal - total,0);
+    const isGoalReached = progress < 1;
 
     return(
         <Animated.View entering={FadeIn.duration(500)} className="flex p-5 gap-2 rounded-3xl bg-[#26263b]">
@@ -18,22 +20,37 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                     <Animated.Text
                         key={total}
                         entering={FadeIn.duration(100)}
-                        className="text-white text-4xl font-extrabold">{total}</Animated.Text>
+                        className="text-white text-4xl font-extrabold">{total}
+                    </Animated.Text>
                     <Pressable onLongPress={() => console.log("Long press")}>
                     <Animated.Text
                         className="text-gray-500 text-left"
-                        entering={FadeIn.duration(100)}>{cups} Cups</Animated.Text>
+                        entering={FadeIn.duration(100)}>{goal}
+                    </Animated.Text>
                     </Pressable>
                     </View>
                 <View>
                     <Pressable onLongPress={() => console.log("Long press")}>
-                        <Animated.Text
-                            entering={FadeIn.duration(100)}
-                            className="text-white text-4xl font-extrabold">{goal} ml</Animated.Text>
+                        {isGoalReached ?
+                            <Animated.Text
+                                entering={FadeIn.duration(100)}
+                                className="text-white text-4xl font-extrabold">
+                                {remainingAmount}
+                                <Text className={"text-gray-500 text-xs text-left"}>
+                                    Left
+                                </Text>
+                            </Animated.Text>
+                            :
+                            <Text className="text-white text-4xl font-extrabold">
+                                Completed
+                            </Text>
+                        }
                     </Pressable>
                     <Animated.Text
                         className="text-gray-500 text-right"
-                        entering={FadeIn.duration(100)}>{Math.max(goal - total,0)} ml left</Animated.Text>
+                        entering={FadeIn.duration(100)}>
+                        {cups} Intake
+                    </Animated.Text>
                 </View>
             </View>
             <Host matchContents={{ vertical: true}} style={{marginTop: 10,marginBottom: 10}}>
@@ -72,7 +89,9 @@ export default function HydrationProgress({total,cups, goal, progress, addWater,
                 <Animated.View
                     className={"bg-blue-400 h-full rounded-2xl absolute"}
                     style={{width: `${progress * 100}%`,transitionProperty: 'width', transitionDuration: 400, transitionTimingFunction: 'ease-in-out'}} />
-                <Text className={"text-gray-200 font-semibold pl-2"}>{progress < 1 ? Math.round(progress * 100) + "% of daily goal" : "Daily goal reached"}</Text>
+                <Text className={"text-gray-200 font-semibold pl-2"}>
+                    {isGoalReached ? Math.round(progress * 100) + "% of daily goal" : "Goal reached"}
+                </Text>
             </View>
         </Animated.View>
     )

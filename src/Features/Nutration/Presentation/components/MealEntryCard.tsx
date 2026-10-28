@@ -25,13 +25,39 @@ export default function MealEntryCard({addMeal}:props){
 
     return(
         <View className={"flex p-5 mb-3 gap-2 rounded-3xl bg-[#26263b]"}>
-            <MealEntryItem Title={"Calories"} value={calories} onChangeText={setCalories}/>
-            <MealEntryItem Title={"Proteins"} value={proteins} onChangeText={setProteins}/>
-            <MealEntryItem Title={"Carbs"} value={carbs} onChangeText={setCarbs}/>
-            <MealEntryItem Title={"Fats"} value={fats} onChangeText={setFats}/>
-            <Pressable onPress={saveMeal} disabled={isDisabled}
-                       className={`rounded-2xl p-4 ${isDisabled ? "bg-[#303049]" : "bg-[#5438be]"}`}>
-                <Text className={`font-bold text-xl text-center ${isDisabled ? "text-gray-500" : "text-white"}`}>Add Meal</Text>
+            <MealEntryItem
+                Title={"Calories"}
+                value={calories}
+                onChangeText={setCalories}
+            />
+            <MealEntryItem
+                Title={"Proteins"}
+                value={proteins}
+                onChangeText={setProteins}
+            />
+            <MealEntryItem
+                Title={"Carbs"}
+                value={carbs}
+                onChangeText={setCarbs}
+            />
+            <MealEntryItem
+                Title={"Fats"}
+                value={fats}
+                onChangeText={setFats}
+            />
+            <Pressable
+                onPress={saveMeal}
+                disabled={isDisabled}
+                aria-label={"Save"}
+                className={`rounded-2xl p-4
+                 ${isDisabled ? "bg-[#303049]" : "bg-[#5438be]"}`}
+            >
+                <Text
+                    className={`font-bold text-xl text-center
+                     ${isDisabled ? "text-gray-500" : "text-white"}`}
+                >
+                    Add Meal
+                </Text>
             </Pressable>
         </View>
     );
