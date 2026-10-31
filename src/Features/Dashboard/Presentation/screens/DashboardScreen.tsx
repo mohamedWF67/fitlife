@@ -1,9 +1,10 @@
-import {ScrollView, Text, View} from "react-native";
+import {Pressable, ScrollView, Text, View} from "react-native";
 import { styled } from "nativewind";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import GlobalGradientBackground from "@/components/GlobalGradientBackground";
 import DashboardCard from "@/Features/Dashboard/Presentation/components/DashboardCard";
 import {useDashboard} from "@/Features/Dashboard/Presentation/models/useDashboard";
+import {supabase} from "@/services/supabase";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
@@ -24,6 +25,20 @@ export default function DashboardScreen() {
                 <View className="pt-3 pb-1">
                     <Text className="text-white text-4xl font-extrabold">Today</Text>
                     <Text className="text-gray-500">{today}</Text>
+                    <Pressable
+                        className="bg-amber-600 rounded-md p-2"
+                        onPress={() => supabase.auth.signOut()} >
+                        <Text>
+                            Sign-out
+                        </Text>
+                    </Pressable>
+                    <Pressable
+                        className="bg-green-500 rounded-md p-2"
+                        onPress={() => console.log(supabase.auth.getSession())} >
+                        <Text>
+                            get-out
+                        </Text>
+                    </Pressable>
                 </View>
 
                 <DashboardCard
